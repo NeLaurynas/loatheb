@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace Loatheb.win32;
 
@@ -10,6 +11,18 @@ internal static class Structures
 		internal uint type;
 		internal InputUnion U;
 		internal static int Size => Marshal.SizeOf(typeof(INPUT));
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct POINT
+	{
+		public int X;
+		public int Y;
+
+		public static implicit operator Point(POINT point)
+		{
+			return new Point(point.X, point.Y);
+		}
 	}
 
 	[StructLayout(LayoutKind.Explicit)]

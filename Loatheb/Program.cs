@@ -35,56 +35,19 @@ do
 	graphic.CopyFromScreen(0, 0, 0, 0, bitmap.Size, CopyPixelOperation.SourceCopy);
 #pragma warning restore CA1416
 
-	// mouseCtrl.Move(0, 0);
-
 	using var cvImg = bitmap.ToImage<Bgr, Byte>();
 	using var imgMatch = cvImg.MatchTemplate(images.EnterBtn, TemplateMatchingType.CcoeffNormed);
 
-	var eh = new List<Rectangle>();
+	imgMatch.MinMax(out _, out var maxValues, out _, out var maxLocations);
 
-	using var m = new Matrix<float>(imgMatch.Rows, imgMatch.Cols);
-	imgMatch.CopyTo(m);
-	for (int i = 0; i < imgMatch.Rows; i++)
+	if (maxValues[0] > 0.9)
 	{
-
-		for (int j = 0; j < imgMatch.Cols; j++)
-		{
-
-			if (m[i, j] > 0.95)
-			{
-				eh.Add(new Rectangle(new Point(j, i), images.EnterBtn.Size));
-				CvInvoke.Rectangle(cvImg, new Rectangle(new Point(j, i), images.EnterBtn.Size), new MCvScalar(0, 0, 255), 2);
-			}
-		}
+		// This is a match. Do something with it, for example draw a rectangle around it.
+		Rectangle match = new Rectangle(maxLocations[0], images.EnterBtn.Size);
+		cvImg.Draw(match, new Bgr(Color.Red), 3);
 	}
 
-	if (eh.Count > 0)
-	{
-		Console.WriteLine("FOUND");
-		var avgX = eh.Average(x => x.X);
-		var avgY = eh.Average(x => x.Y);
-		var avgHeight = eh.Average(x => x.Height);
-		var avgWidth = eh.Average(x => x.Width);
-
-		if (Math.Abs(avgX - eh.First().X) < 10 && Math.Abs(avgY - eh.First().Y) < 10)
-		{
-			Console.WriteLine($"rect X/Y averages smaller than 10! {avgX} / {avgY}");
-
-			if (Math.Abs(avgHeight - eh.First().Height) < 10 && Math.Abs(avgWidth - eh.First().Width) < 10)
-			{
-				Console.WriteLine($"rect height/width averages smaller than 10! {avgHeight} x {avgWidth}");
-
-				var posX = avgX + avgWidth / 2;
-				var posY = avgY + avgHeight / 2;
-
-				Console.WriteLine($"Took {sw.Elapsed.TotalMilliseconds} ms");
-
-				mouseCtrl.Move((int)posX, (int)posY);
-			}
-		}
-	}
-
-	// Console.WriteLine("SAVING, results - " + eh.Count);
-	// cvImg.Save(@"E:\result.png");
+	Console.WriteLine($"Saving, time {sw.Elapsed.TotalMilliseconds:F1} ms");
+	cvImg.Save(@"E:\result.png");
 }
 while (Console.ReadKey().Key != ConsoleKey.X);
