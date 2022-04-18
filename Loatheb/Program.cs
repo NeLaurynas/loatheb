@@ -1,75 +1,90 @@
 ﻿using System.Diagnostics;
-using Loatheb.win32;
+using System.Drawing;
+using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
+using Loatheb;
 
-Console.WriteLine("Press any key for movement test");
-var rnd = new Random();
+var sys = new Sys();
+Console.Write("Initializing sys... ");
+sys.Initialize();
+Console.WriteLine("done");
 
-var handle = GetWindowHandle();
+var cfg = new Cfg();
+Console.Write("Initializing cfg... ");
+cfg.Initialize();
+Console.WriteLine("done");
 
-var blaX = Win32Api.GetSystemMetrics(Structures.SystemMetric.SM_CXSCREEN);
-var blaY = Win32Api.GetSystemMetrics(Structures.SystemMetric.SM_CYSCREEN);
+var mouseCtrl = new MouseCtrl(sys, cfg);
+Console.Write("Initializing mouseCtrl... ");
+mouseCtrl.Initialize();
+Console.WriteLine("done");
 
-int MOUSE_INPUT_BATCH = 5;
-int MOUSE_SLEEP_CHANCE = 25;
+var images = new Images();
+Console.Write("Initializing images... ");
+images.Initialize();
+Console.WriteLine("done");
 
-var inputs = new Structures.INPUT[MOUSE_INPUT_BATCH];
-for (int i = 0; i < MOUSE_INPUT_BATCH; i++)
+do
 {
-	inputs[i] = new Structures.INPUT();
-}
+	var sw = Stopwatch.StartNew();
 
-var mouseInput = new Structures.MOUSEINPUT();
+#pragma warning disable CA1416
+	using var bitmap = new Bitmap(sys.ResX, sys.ResY);
+	using var graphic = Graphics.FromImage(bitmap);
+	graphic.CopyFromScreen(0, 0, 0, 0, bitmap.Size, CopyPixelOperation.SourceCopy);
+#pragma warning restore CA1416
 
-while (Console.ReadKey().Key != ConsoleKey.X)
-{
-	for (var i = 0; i < blaY - 100; i++)
+	// mouseCtrl.Move(0, 0);
+
+	using var cvImg = bitmap.ToImage<Bgr, Byte>();
+	using var imgMatch = cvImg.MatchTemplate(images.EnterBtn, TemplateMatchingType.CcoeffNormed);
+
+	var eh = new List<Rectangle>();
+
+	using var m = new Matrix<float>(imgMatch.Rows, imgMatch.Cols);
+	imgMatch.CopyTo(m);
+	for (int i = 0; i < imgMatch.Rows; i++)
 	{
-		for (int j = 0; j < inputs.Length; j++)
+
+		for (int j = 0; j < imgMatch.Cols; j++)
 		{
-			inputs[j].type = Structures.INPUT_MOUSE;
-			mouseInput.dy = ConvertAbsoluteCoordinate(i, blaY);
-			i += rnd.Next(1, 5);
-			mouseInput.dx = 100;
-			mouseInput.dwFlags = Structures.MOUSEEVENTF.MOVE | Structures.MOUSEEVENTF.ABSOLUTE;
-			inputs[j].U = new Structures.InputUnion {mi = mouseInput};
+
+			if (m[i, j] > 0.95)
+			{
+				eh.Add(new Rectangle(new Point(j, i), images.EnterBtn.Size));
+				CvInvoke.Rectangle(cvImg, new Rectangle(new Point(j, i), images.EnterBtn.Size), new MCvScalar(0, 0, 255), 2);
+			}
 		}
-
-		if (rnd.Next(100) < MOUSE_SLEEP_CHANCE)
-			Thread.Sleep(1);
-
-		// Console.WriteLine(i);
-		Win32Api.SendInput((uint) inputs.Length, inputs, Structures.INPUT.Size);
 	}
 
-	Console.ReadKey();
-
-	for (var i = 0; i < blaX - 100; i++)
+	if (eh.Count > 0)
 	{
-		for (int j = 0; j < inputs.Length; j++)
+		Console.WriteLine("FOUND");
+		var avgX = eh.Average(x => x.X);
+		var avgY = eh.Average(x => x.Y);
+		var avgHeight = eh.Average(x => x.Height);
+		var avgWidth = eh.Average(x => x.Width);
+
+		if (Math.Abs(avgX - eh.First().X) < 10 && Math.Abs(avgY - eh.First().Y) < 10)
 		{
-			inputs[j].type = Structures.INPUT_MOUSE;
-			mouseInput.dx = ConvertAbsoluteCoordinate(i, blaX);
-			i += rnd.Next(1, 5);
-			mouseInput.dy = 100;
-			mouseInput.dwFlags = Structures.MOUSEEVENTF.MOVE | Structures.MOUSEEVENTF.ABSOLUTE;
-			inputs[j].U = new Structures.InputUnion {mi = mouseInput};
+			Console.WriteLine($"rect X/Y averages smaller than 10! {avgX} / {avgY}");
+
+			if (Math.Abs(avgHeight - eh.First().Height) < 10 && Math.Abs(avgWidth - eh.First().Width) < 10)
+			{
+				Console.WriteLine($"rect height/width averages smaller than 10! {avgHeight} x {avgWidth}");
+
+				var posX = avgX + avgWidth / 2;
+				var posY = avgY + avgHeight / 2;
+
+				Console.WriteLine($"Took {sw.Elapsed.TotalMilliseconds} ms");
+
+				mouseCtrl.Move((int)posX, (int)posY);
+			}
 		}
-
-		if (rnd.Next(100) < MOUSE_SLEEP_CHANCE)
-			Thread.Sleep(1);
-
-		// Console.WriteLine(i);
-		Win32Api.SendInput((uint) inputs.Length, inputs, Structures.INPUT.Size);
 	}
-}
 
-IntPtr GetWindowHandle()
-{
-	return Process.GetCurrentProcess().Handle;
-	// return Process.GetProcesses().FirstOrDefault(x => x.ProcessName.ToLower().StartsWith("notepad"))?.Handle ?? IntPtr.Zero;
+	// Console.WriteLine("SAVING, results - " + eh.Count);
+	// cvImg.Save(@"E:\result.png");
 }
-
-int ConvertAbsoluteCoordinate(int coordinate, int resolution)
-{
-	return ((65536 * coordinate) / resolution) + 1;
-}
+while (Console.ReadKey().Key != ConsoleKey.X);
