@@ -1,53 +1,56 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
-using Loatheb;
+﻿using Loatheb;
 
-var sys = new Sys();
-Console.Write("Initializing sys... ");
-sys.Initialize();
-Console.WriteLine("done");
-
-var cfg = new Cfg();
 Console.Write("Initializing cfg... ");
+var cfg = new Cfg();
 cfg.Initialize();
 Console.WriteLine("done");
 
-var mouseCtrl = new MouseCtrl(sys, cfg);
+Console.Write("Initializing sys... ");
+var sys = new Sys(cfg);
+sys.Initialize();
+Console.WriteLine("done");
+
 Console.Write("Initializing mouseCtrl... ");
+var mouseCtrl = new MouseCtrl(sys, cfg);
 mouseCtrl.Initialize();
 Console.WriteLine("done");
 
-var images = new Images();
+Console.Write("Initializing keyboardCtrl... ");
+var kbdCtrl = new KbdCtrl(cfg);
+kbdCtrl.Initialize();
+Console.WriteLine("done");
+
 Console.Write("Initializing images... ");
+var images = new Images();
 images.Initialize();
+Console.WriteLine("done");
+
+Console.Write("Initializing open CV... ");
+var openCV = new OpenCV(sys);
+Console.WriteLine("done");
+
+Console.Write("Initializing fishing module... ");
+var fishing = new Fishing(images, kbdCtrl, openCV);
 Console.WriteLine("done");
 
 do
 {
-	var sw = Stopwatch.StartNew();
+	Console.WriteLine("----");
+	Console.WriteLine("Press [F] for fishing (be near water and with life skills open)");
+	Console.WriteLine("Press [G] for grinding (be near chaos gate entrance)");
+	Console.WriteLine("Press [X] to quit");
 
-#pragma warning disable CA1416
-	using var bitmap = new Bitmap(sys.ResX, sys.ResY);
-	using var graphic = Graphics.FromImage(bitmap);
-	graphic.CopyFromScreen(0, 0, 0, 0, bitmap.Size, CopyPixelOperation.SourceCopy);
-#pragma warning restore CA1416
-
-	using var cvImg = bitmap.ToImage<Bgr, Byte>();
-	using var imgMatch = cvImg.MatchTemplate(images.EnterBtn, TemplateMatchingType.CcoeffNormed);
-
-	imgMatch.MinMax(out _, out var maxValues, out _, out var maxLocations);
-
-	if (maxValues[0] > 0.9)
+	var key = Console.ReadKey();
+	switch (key.Key)
 	{
-		// This is a match. Do something with it, for example draw a rectangle around it.
-		Rectangle match = new Rectangle(maxLocations[0], images.EnterBtn.Size);
-		cvImg.Draw(match, new Bgr(Color.Red), 3);
+		case ConsoleKey.F:
+			await fishing.Start();
+			break;
+		case ConsoleKey.G:
+			// grind
+			break;
+		case ConsoleKey.X:
+			return 0;
 	}
-
-	Console.WriteLine($"Saving, time {sw.Elapsed.TotalMilliseconds:F1} ms");
-	cvImg.Save(@"E:\result.png");
 }
-while (Console.ReadKey().Key != ConsoleKey.X);
+while (true);

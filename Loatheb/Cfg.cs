@@ -5,6 +5,11 @@ public class Cfg
 	public int MouseInputBatch { get; set; }
 	public int MouseSleepChance { get; set; }
 	public int MouseRndMovePxUpperBound { get; set; }
+	
+	public string FishingLetter { get; set; }
+	public string FishingBuffLetter { get; set; }
+
+	public string LAProcessName { get; set; }
 
 	public void Initialize()
 	{
@@ -12,5 +17,8 @@ public class Cfg
 		MouseInputBatch = 3;
 		MouseSleepChance = 10;
 		MouseRndMovePxUpperBound = 5;
+		LAProcessName = "mspaint";
+		FishingLetter = "E";
+		FishingLetter = "F";
 	}
 }
