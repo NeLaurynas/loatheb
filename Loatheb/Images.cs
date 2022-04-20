@@ -41,12 +41,14 @@ public class Images
 	public Image<Bgr, byte> Aavail;
 	public Image<Bgr, byte> Savail;
 	public Image<Bgr, byte> Davail;
+	public Image<Bgr, byte> Favail;
 	public Image<Bgr, byte> DungeonNotSelected;
 	public Image<Bgr, byte> DungeonSelected;
 	public Image<Bgr, byte> AcceptBtn;
 	public Image<Bgr, byte> ChaosDungeonWindowTitle;
 	public Image<Bgr, byte> LeaveBtn;
 	public Image<Bgr, byte> InsideDungeon;
+	public Image<Bgr, byte> Loading;
 
 	public void Initialize()
 	{
@@ -87,11 +89,13 @@ public class Images
 		Aavail = new Image<Bgr, Byte>("images/Aavail.png");
 		Savail = new Image<Bgr, Byte>("images/Savail.png");
 		Davail = new Image<Bgr, Byte>("images/Davail.png");
+		Favail = new Image<Bgr, Byte>("images/Favail.png");
 		DungeonNotSelected = new Image<Bgr, Byte>("images/dungeonNotSelected.png");
 		DungeonSelected = new Image<Bgr, Byte>("images/dungeonSelected.png");
 		AcceptBtn = new Image<Bgr, Byte>("images/acceptBtn.png");
 		ChaosDungeonWindowTitle = new Image<Bgr, Byte>("images/chaosDungeonWindowTitle.png");
 		LeaveBtn = new Image<Bgr, Byte>("images/leaveBtn.png");
 		InsideDungeon = new Image<Bgr, Byte>("images/insideDungeon.png");
+		Loading = new Image<Bgr, Byte>("images/loading.png");
 	}
 }

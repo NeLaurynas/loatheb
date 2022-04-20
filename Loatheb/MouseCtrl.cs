@@ -109,7 +109,7 @@ public class MouseCtrl
 		_clickInputs[0].U.mi.dwFlags = Structures.MOUSEEVENTF.LEFTDOWN;
 		_clickInputs[0].U.mi.time = 0;
 		Win32Api.SendInput((uint) _clickInputs.Length, _clickInputs, Structures.INPUT.Size);
-		Thread.Sleep(_rnd.Next(50, 120));
+		Thread.Sleep(_rnd.Next(30, 60));
 		_clickInputs[0].U.mi.dwFlags = Structures.MOUSEEVENTF.LEFTUP;
 		Win32Api.SendInput((uint) _clickInputs.Length, _clickInputs, Structures.INPUT.Size);
 	}

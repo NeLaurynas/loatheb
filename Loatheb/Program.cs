@@ -38,7 +38,7 @@ var fishing = new Fishing(images, kbdCtrl, openCV, repair, mouseCtrl);
 Console.WriteLine("done");
 
 Console.WriteLine("initializing grind module... ");
-var grind = new Grind(mouseCtrl, kbdCtrl, images, openCV, repair);
+var grind = new Grind(mouseCtrl, kbdCtrl, images, openCV, repair, cfg);
 Console.WriteLine("done");
 
 do

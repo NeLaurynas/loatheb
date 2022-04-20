@@ -11,6 +11,10 @@ public class Cfg
 
 	public string LAProcessName { get; set; }
 
+	public int DelayAfterUpAndDown { get; set; }
+	public int DelayBetweenSkills { get; set; }
+	public int ChanceToMove { get; set; }
+
 	public void Initialize()
 	{
 		// TODO: read config
@@ -20,5 +24,9 @@ public class Cfg
 		LAProcessName = "lostark";
 		FishingLetter = "E";
 		FishingLetter = "F";
+
+		DelayAfterUpAndDown = 2300;
+		DelayBetweenSkills = 400;
+		ChanceToMove = 20;
 	}
 }

@@ -32,7 +32,7 @@ public class KbdCtrl
 		_keyInput[0].U.ki.time = 0;
 
 		Win32Api.SendInput((uint) _keyInput.Length, _keyInput, Structures.INPUT.Size);
-		Thread.Sleep(_rnd.Next(50, 120));
+		Thread.Sleep(_rnd.Next(30, 60));
 		_keyInput[0].U.ki.dwFlags = Structures.KEYEVENTF.KEYUP;
 		Win32Api.SendInput((uint) _keyInput.Length, _keyInput, Structures.INPUT.Size);
 	}
