@@ -6,17 +6,20 @@ public class Fishing
 	private readonly Images _images;
 	private readonly KbdCtrl _kbdCtrl;
 	private readonly OpenCV _openCv;
-	private int _iter = -1; 
+	private readonly Repairing _repairing;
+	private int _iter; 
 	
-	public Fishing(Images images, KbdCtrl kbdCtrl, OpenCV openCv)
+	public Fishing(Images images, KbdCtrl kbdCtrl, OpenCV openCv, Repairing repairing)
 	{
 		_images = images;
 		_kbdCtrl = kbdCtrl;
 		_openCv = openCv;
+		_repairing = repairing;
 	}
 
 	public async Task Start()
 	{
+		_iter = -1;
 		Console.WriteLine("Activate Lost Ark window (don't move it), and set mouse over water");
 		for (int i = 3; i > 0; i--)
 		{
@@ -28,13 +31,18 @@ public class Fishing
 		{
 			_iter++;
 
-			if (Every(3) && !LifePointsAvailable())
+			if (Every(4) && _repairing.NeedsRepairingTool())
+			{
+				_repairing.RepairTool();
+			}
+
+			if (Every(2) && !LifePointsAvailable())
 			{
 				Console.WriteLine("Life points not available, have you opened life skills (B)?");
 				return;
 			}
 
-			if (Every(5) && FishingBuffAvailable())
+			if (Every(3) && FishingBuffAvailable())
 			{
 				Console.WriteLine("Fishing buff is available, casting that");
 				_kbdCtrl.PressKey(Structures.VirtualKeyShort.KEY_F);
@@ -89,7 +97,7 @@ public class Fishing
 		Console.WriteLine("Checking if life points are available");
 		var (result, _) = _openCv.Match(_images.LifePointsAvailable);
 		Console.WriteLine($"C - {result.Length}, V - {result.FirstOrDefault()}");
-		return result.Length == 1 && result[0] > 0.9;
+		return result.Length == 1 && result[0] > 0.8;
 	}
 	
 	private bool FishingBuffAvailable()
@@ -114,19 +122,19 @@ public class Fishing
 		{
 			var (result, _) = _openCv.Match(_images.FishingMark1);
 			Console.WriteLine($"MARK 1 - C - {result.Length}, V - {result.FirstOrDefault()}");
-			return result.Length == 1 && result[0] > 0.75;
+			return result.Length == 1 && result[0] > 0.66;
 		});		
 		var mark2Task = Task.Run(() =>
 		{
 			var (result, _) = _openCv.Match(_images.FishingMark2);
 			Console.WriteLine($"MARK 2 - C - {result.Length}, V - {result.FirstOrDefault()}");
-			return result.Length == 1 && result[0] > 0.75;
+			return result.Length == 1 && result[0] > 0.66;
 		});	
 		var mark3Task = Task.Run(() =>
 		{
 			var (result, _) = _openCv.Match(_images.FishingMark3);
 			Console.WriteLine($"MARK 3 - C - {result.Length}, V - {result.FirstOrDefault()}");
-			return result.Length == 1 && result[0] > 0.75;
+			return result.Length == 1 && result[0] > 0.66;
 		});
 		
 		var mark1 = await mark1Task;

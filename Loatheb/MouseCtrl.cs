@@ -1,4 +1,5 @@
-﻿using Loatheb.win32;
+﻿using System.Drawing;
+using Loatheb.win32;
 namespace Loatheb;
 
 public class MouseCtrl
@@ -8,8 +9,7 @@ public class MouseCtrl
 	private readonly Random _rnd;
 
 	private Structures.INPUT[] _moveInputs = null!;
-	private Structures.INPUT[] _clickDown = null!;
-	private Structures.INPUT[] _clickUp = null!;
+	private Structures.INPUT[] _clickInputs = null!;
 
 	public MouseCtrl(Sys sys, Cfg cfg)
 	{
@@ -21,8 +21,7 @@ public class MouseCtrl
 	public void Initialize()
 	{
 		_moveInputs = new Structures.INPUT[_cfg.MouseInputBatch];
-		_clickDown = new Structures.INPUT[1];
-		_clickUp = new Structures.INPUT[1];
+		_clickInputs = new Structures.INPUT[1];
 
 		for (var i = 0; i < _cfg.MouseInputBatch; i++)
 		{
@@ -35,21 +34,17 @@ public class MouseCtrl
 			_moveInputs[i] = input;
 		}
 
-		var mouseDown = new Structures.MOUSEINPUT();
-		mouseDown.dwFlags = Structures.MOUSEEVENTF.LEFTDOWN;
+		var mouseClick = new Structures.MOUSEINPUT();
 
-		var mouseDownInput = new Structures.INPUT();
-		mouseDownInput.type = Structures.INPUT_MOUSE;
-		mouseDownInput.U = new Structures.InputUnion {mi = mouseDown};
-		_clickDown[0] = mouseDownInput;
+		var mouseInputClick = new Structures.INPUT();
+		mouseInputClick.type = Structures.INPUT_MOUSE;
+		mouseInputClick.U = new Structures.InputUnion {mi = mouseClick};
+		_clickInputs[0] = mouseInputClick;
+	}
 
-		var mouseUp = new Structures.MOUSEINPUT();
-		mouseUp.dwFlags = Structures.MOUSEEVENTF.LEFTUP;
-
-		var mouseUpInput = new Structures.INPUT();
-		mouseUpInput.type = Structures.INPUT_MOUSE;
-		mouseUpInput.U = new Structures.InputUnion {mi = mouseUp};
-		_clickUp[0] = mouseUpInput;
+	public void Move(Point[] locations)
+	{
+		Move(locations[0].X, locations[0].Y);
 	}
 
 	public void Move(int x, int y)
@@ -97,11 +92,19 @@ public class MouseCtrl
 		}
 	}
 
+	public void ResetCursor()
+	{
+		Move(_sys.LAScreenX + _rnd.Next(10, 200), _sys.LAScreenY + _rnd.Next(10, 200));
+	}
+
 	public void Click()
 	{
-		Win32Api.SendInput((uint) _clickDown.Length, _clickDown, Structures.INPUT.Size);
-		Thread.Sleep(_rnd.Next(100, 120));
-		Win32Api.SendInput((uint) _clickUp.Length, _clickUp, Structures.INPUT.Size);
+		_clickInputs[0].U.mi.dwFlags = Structures.MOUSEEVENTF.LEFTDOWN;
+		_clickInputs[0].U.mi.time = 0;
+		Win32Api.SendInput((uint) _clickInputs.Length, _clickInputs, Structures.INPUT.Size);
+		Thread.Sleep(_rnd.Next(50, 120));
+		_clickInputs[0].U.mi.dwFlags = Structures.MOUSEEVENTF.LEFTUP;
+		Win32Api.SendInput((uint) _clickInputs.Length, _clickInputs, Structures.INPUT.Size);
 	}
 
 	private int _convertCoordinates(int coordinate, int resolution)

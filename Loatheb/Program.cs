@@ -29,8 +29,12 @@ Console.Write("Initializing open CV... ");
 var openCV = new OpenCV(sys);
 Console.WriteLine("done");
 
+Console.Write("Initializing repair module... ");
+var repair = new Repairing(images, mouseCtrl, openCV, kbdCtrl);
+Console.WriteLine("done");
+
 Console.Write("Initializing fishing module... ");
-var fishing = new Fishing(images, kbdCtrl, openCV);
+var fishing = new Fishing(images, kbdCtrl, openCV, repair);
 Console.WriteLine("done");
 
 do

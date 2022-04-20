@@ -17,7 +17,7 @@ public class Cfg
 		MouseInputBatch = 3;
 		MouseSleepChance = 10;
 		MouseRndMovePxUpperBound = 5;
-		LAProcessName = "mspaint";
+		LAProcessName = "lostark";
 		FishingLetter = "E";
 		FishingLetter = "F";
 	}

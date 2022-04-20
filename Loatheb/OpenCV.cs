@@ -27,16 +27,24 @@ public class OpenCV
 		imgMatch.MinMax(out _, out var maxValues, out _, out var maxLocations);
 		for (var i = 0; i < maxLocations.Length; i++)
 		{
-			maxLocations[i].X += _sys.LAScreenX;
-			maxLocations[i].Y += _sys.LAScreenY;
+			maxLocations[i].X += _sys.LAScreenX + template.Width / 2;
+			maxLocations[i].Y += _sys.LAScreenY + template.Height / 2;
 		}
 
 		return (maxValues, maxLocations);
 	}
 
-	public bool IsMatching(Image<Bgr, Byte> template, double confidence)
+	public bool IsMatching(Image<Bgr, Byte> template, double confidence = 0.9)
 	{
 		var (result, _) = Match(template);
+		Console.WriteLine($"C - {result.Length}, V - {result.FirstOrDefault()}");
 		return result.Length == 1 && result[0] >= confidence;
+	}
+
+	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, double confidence = 0.9)
+	{
+		var (result, maxLocations) = Match(template);
+		Console.WriteLine($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		return (result.Length == 1 && result[0] >= confidence, maxLocations);
 	}
 }

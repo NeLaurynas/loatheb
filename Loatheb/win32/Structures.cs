@@ -186,6 +186,7 @@ public static class Structures
 		KEY_X = 0x58,
 		KEY_Y = 0x59,
 		KEY_Z = 0x5A,
+		KEY_BracketRight = 0xDD,
 		LWIN = 0x5B,
 		RWIN = 0x5C,
 		APPS = 0x5D,
