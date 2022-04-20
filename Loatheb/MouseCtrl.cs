@@ -47,6 +47,13 @@ public class MouseCtrl
 		Move(locations[0].X, locations[0].Y);
 	}
 
+	public void MoveFromCenter(int x = 0, int y = 0)
+	{
+		var newPosX = _sys.LAScreenX + _sys.LAScreenWidth / 2 + x;
+		var newPosY = _sys.LAScreenY + _sys.LAScreenHeight / 2 + y;
+		Move(newPosX, newPosY);
+	}
+
 	public void Move(int x, int y)
 	{
 		if (x > _sys.ResX) Console.WriteLine($"WARN - {nameof(MouseCtrl)} - cursor move to {x} is out of screen res x {_sys.ResX}");
@@ -92,7 +99,7 @@ public class MouseCtrl
 		}
 	}
 
-	public void ResetCursor()
+	public void SafePosition()
 	{
 		Move(_sys.LAScreenX + _rnd.Next(10, 200), _sys.LAScreenY + _rnd.Next(10, 200));
 	}

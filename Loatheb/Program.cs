@@ -34,7 +34,11 @@ var repair = new Repairing(images, mouseCtrl, openCV, kbdCtrl);
 Console.WriteLine("done");
 
 Console.Write("Initializing fishing module... ");
-var fishing = new Fishing(images, kbdCtrl, openCV, repair);
+var fishing = new Fishing(images, kbdCtrl, openCV, repair, mouseCtrl);
+Console.WriteLine("done");
+
+Console.WriteLine("initializing grind module... ");
+var grind = new Grind(mouseCtrl, kbdCtrl, images, openCV, repair);
 Console.WriteLine("done");
 
 do
@@ -51,7 +55,7 @@ do
 			await fishing.Start();
 			break;
 		case ConsoleKey.G:
-			// grind
+			await grind.Start();
 			break;
 		case ConsoleKey.X:
 			return 0;
