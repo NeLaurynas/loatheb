@@ -53,8 +53,6 @@ public class OpenCV
 			maxLocations[i].Y += _sys.LAScreenY + yPadding + template.Height / 2;
 		}
 		
-		cvImg.Save(@"E:\result.png");
-
 		return (maxValues, maxLocations);
 	}
 

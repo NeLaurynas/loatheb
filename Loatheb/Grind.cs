@@ -65,7 +65,6 @@ public class Grind
 
 		do
 		{
-			_kbdCtrl.EscapeTwice();
 			if (await EnterChaosDungeon())
 			{
 				Console.WriteLine("Entered chaos dungeon");
@@ -88,13 +87,13 @@ public class Grind
 				else
 				{
 					Console.WriteLine("Not inside chaos dungeon, what?");
-					break;
+					Thread.Sleep(10000);
 				}
 			}
 			else
 			{
 				Console.WriteLine("Couldn't enter chaos dungeon");
-				break;
+				Thread.Sleep(10000);
 			}
 		}
 		while (true);
@@ -372,7 +371,6 @@ public class Grind
 		for (int i = 0; i < 3; i++)
 		{
 			Thread.Sleep(240);
-			Console.WriteLine("Trying to click Ok");
 			if (ClickOk())
 			{
 				clickedOk = true;
@@ -418,6 +416,8 @@ public class Grind
 			Skills.C => Structures.VirtualKeyShort.KEY_C,
 			_ => Structures.VirtualKeyShort.KEY_R // yolo
 		};
+		
+		Console.WriteLine($"Casting skill {Enum.GetName(skill)}");
 
 		_kbdCtrl.PressKey(key);
 		if (_rnd.Next(100) < 50)

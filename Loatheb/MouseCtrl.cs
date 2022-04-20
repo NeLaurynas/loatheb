@@ -101,7 +101,7 @@ public class MouseCtrl
 
 	public void SafePosition()
 	{
-		Move(_sys.LAScreenX + _rnd.Next(10, 200), _sys.LAScreenY + _rnd.Next(10, 200));
+		Move(_sys.LAScreenX + _rnd.Next(10, 666), _sys.LAScreenY + _rnd.Next(10, 666));
 	}
 
 	public void Click()
