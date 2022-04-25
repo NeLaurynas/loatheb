@@ -19,8 +19,9 @@ public class Cfg
 	{
 		// TODO: read config
 		MouseInputBatch = 3;
-		MouseSleepChance = 10;
+		MouseSleepChance = 15;
 		MouseRndMovePxUpperBound = 5;
+		
 		LAProcessName = "lostark";
 		FishingLetter = "E";
 		FishingLetter = "F";

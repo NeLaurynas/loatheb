@@ -34,16 +34,18 @@ public class Fishing
 
 		do
 		{
-			_mouseCtrl.MoveFromCenter(x: _rnd.Next(300, 450));
+			if (Every(6))
+				_mouseCtrl.MoveFromCenter(x: _rnd.Next(300, 450));
 			
 			_iter++;
 
 			if (Every(4) && _repairing.NeedsRepairingTool())
 			{
 				_repairing.RepairTool();
+				_mouseCtrl.MoveFromCenter(333);
 			}
 			
-			if (FishingGreyedOut())
+			if (FishingGreyedOut() || !LifePointsAvailable())
 			{
 				Console.WriteLine("Fishing skill was greyed out - out of life points?");
 				return;
