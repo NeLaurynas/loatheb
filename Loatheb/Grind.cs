@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Loatheb.win32;
 namespace Loatheb;
