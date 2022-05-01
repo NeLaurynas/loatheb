@@ -50,8 +50,17 @@ public class Images
 	public Image<Bgr, byte> InsideDungeon;
 	public Image<Bgr, byte> Loading;
 
+	private readonly Logger _logger;
+
+	public Images(Logger logger)
+	{
+		_logger = logger;
+	}
+
 	public void Initialize()
 	{
+		_logger.Log("Initializing images");
+		
 		EnterBtn = new Image<Bgr, Byte>("images/enterBtn.png");
 		FishBuffReady = new Image<Bgr, Byte>("images/fishBuffReady.png");
 		FishingInProgress = new Image<Bgr, Byte>("images/fishingInProgress.png");

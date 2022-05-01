@@ -8,27 +8,29 @@ public class Fishing
 	private readonly OpenCV _openCv;
 	private readonly Repairing _repairing;
 	private readonly MouseCtrl _mouseCtrl;
+	private readonly Logger _logger;
 	
 	private int _iter;
 	private readonly Random _rnd;
 	
-	public Fishing(Images images, KbdCtrl kbdCtrl, OpenCV openCv, Repairing repairing, MouseCtrl mouseCtrl)
+	public Fishing(Images images, KbdCtrl kbdCtrl, OpenCV openCv, Repairing repairing, MouseCtrl mouseCtrl, Logger logger)
 	{
 		_images = images;
 		_kbdCtrl = kbdCtrl;
 		_openCv = openCv;
 		_repairing = repairing;
 		_mouseCtrl = mouseCtrl;
+		_logger = logger;
 		_rnd = new Random();
 	}
 
 	public async Task Start()
 	{
 		_iter = -1;
-		Console.WriteLine("Activate Lost Ark window (don't move it), and make sure water is to the right");
+		_logger.Log("Activate Lost Ark window (don't move it), and make sure water is to the right");
 		for (int i = 3; i > 0; i--)
 		{
-			Console.WriteLine($"Will begin in {i} seconds.");
+			_logger.Log($"Will begin in {i} seconds.");
 			Thread.Sleep(1000);
 		}
 
@@ -47,17 +49,17 @@ public class Fishing
 			
 			if (FishingGreyedOut() || !LifePointsAvailable())
 			{
-				Console.WriteLine("Fishing skill was greyed out - out of life points?");
+				_logger.Log("Fishing skill was greyed out - out of life points?");
 				return;
 			}
 
 			if (Every(3) && FishingBuffAvailable())
 			{
-				Console.WriteLine("Fishing buff is available, casting that");
+				_logger.Log("Fishing buff is available, casting that");
 				_kbdCtrl.PressKey(Structures.VirtualKeyShort.KEY_F);
 				Thread.Sleep(3000);
 				var cast = !FishingBuffAvailable();
-				Console.WriteLine($"Buff was cast - {cast}");
+				_logger.Log($"Buff was cast - {cast}");
 				continue;
 			}
 
@@ -67,14 +69,14 @@ public class Fishing
 				{
 					if (await Baited())
 					{
-						Console.WriteLine("BAITED!");
+						_logger.Log("BAITED!");
 						_kbdCtrl.PressKey(Structures.VirtualKeyShort.KEY_E);
 						Thread.Sleep(6000);
 						break;
 					}
 					if (!FishingInProgress())
 					{
-						Console.WriteLine("DIDN'T CAUGHT ANYTHING, STUPID BOT :(");
+						_logger.Log("DIDN'T CAUGHT ANYTHING, STUPID BOT :(");
 						break;
 					}
 					Thread.Sleep(111);
@@ -83,11 +85,11 @@ public class Fishing
 			}
 			else
 			{
-				Console.WriteLine("Fishing is not in progress, starting fishing");
+				_logger.Log("Fishing is not in progress, starting fishing");
 				_kbdCtrl.PressKey(Structures.VirtualKeyShort.KEY_E);
 				Thread.Sleep(3000);
 				var fishing = FishingInProgress();
-				Console.WriteLine($"Fishing in progress - {fishing}");
+				_logger.Log($"Fishing in progress - {fishing}");
 				continue;
 			}
 			
@@ -103,33 +105,33 @@ public class Fishing
 
 	private bool LifePointsAvailable()
 	{
-		Console.WriteLine("Checking if life points are available");
+		_logger.Log("Checking if life points are available");
 		var (result, _) = _openCv.Match(_images.LifePointsAvailable, ScreenPart.Bottom);
-		Console.WriteLine($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
 		return result.Length == 1 && result[0] > 0.8;
 	}
 
 	private bool FishingGreyedOut()
 	{
-		Console.WriteLine("Checking if fishing is greyed out");
+		_logger.Log("Checking if fishing is greyed out");
 		var (result, _) = _openCv.Match(_images.FishingGreyedOut, ScreenPart.Bottom);
-		Console.WriteLine($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
 		return result.Length == 1 && result[0] > 0.9;
 	}
 	
 	private bool FishingBuffAvailable()
 	{
-		Console.WriteLine("Checking if fishing buff is available");
+		_logger.Log("Checking if fishing buff is available");
 		var (result, _) = _openCv.Match(_images.FishBuffReady, ScreenPart.Bottom);
-		Console.WriteLine($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
 		return result.Length == 1 && result[0] > 0.9;
 	}
 
 	private bool FishingInProgress()
 	{
-		Console.WriteLine("Checking if fishing is in progress");
+		_logger.Log("Checking if fishing is in progress");
 		var (result, _) = _openCv.Match(_images.FishingInProgress, ScreenPart.Bottom);
-		Console.WriteLine($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
 		return result.Length == 1 && result[0] > 0.85;
 	}
 
@@ -138,19 +140,19 @@ public class Fishing
 		var mark1Task = Task.Run(() =>
 		{
 			var (result, _) = _openCv.Match(_images.FishingMark1);
-			Console.WriteLine($"MARK 1 - C - {result.Length}, V - {result.FirstOrDefault()}");
+			_logger.Log($"MARK 1 - C - {result.Length}, V - {result.FirstOrDefault()}");
 			return result.Length == 1 && result[0] > 0.66;
 		});		
 		var mark2Task = Task.Run(() =>
 		{
 			var (result, _) = _openCv.Match(_images.FishingMark2);
-			Console.WriteLine($"MARK 2 - C - {result.Length}, V - {result.FirstOrDefault()}");
+			_logger.Log($"MARK 2 - C - {result.Length}, V - {result.FirstOrDefault()}");
 			return result.Length == 1 && result[0] > 0.66;
 		});	
 		var mark3Task = Task.Run(() =>
 		{
 			var (result, _) = _openCv.Match(_images.FishingMark3);
-			Console.WriteLine($"MARK 3 - C - {result.Length}, V - {result.FirstOrDefault()}");
+			_logger.Log($"MARK 3 - C - {result.Length}, V - {result.FirstOrDefault()}");
 			return result.Length == 1 && result[0] > 0.66;
 		});
 		

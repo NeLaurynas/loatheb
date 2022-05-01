@@ -2,6 +2,13 @@
 
 public class Cfg
 {
+	private readonly Logger _logger;
+	
+	public Cfg(Logger logger)
+	{
+		_logger = logger;
+	}
+	
 	public int MouseInputBatch { get; set; }
 	public int MouseSleepChance { get; set; }
 	public int MouseRndMovePxUpperBound { get; set; }
@@ -17,6 +24,7 @@ public class Cfg
 
 	public void Initialize()
 	{
+		_logger.Log("Initializing configuration");
 		// TODO: read config
 		MouseInputBatch = 3;
 		MouseSleepChance = 15;

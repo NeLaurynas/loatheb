@@ -5,17 +5,20 @@ public class KbdCtrl
 {
 	private readonly Random _rnd;
 	private readonly Cfg _cfg;
+	private readonly Logger _logger;
 	
 	private Structures.INPUT[] _keyInput = null!;
 	
-	public KbdCtrl(Cfg cfg)
+	public KbdCtrl(Cfg cfg, Logger logger)
 	{
 		_rnd = new Random();
 		_cfg = cfg;
+		_logger = logger;
 	}
 
 	public void Initialize()
 	{
+		_logger.Log("Initializing keyboard controller");
 		_keyInput = new Structures.INPUT[1];
 
 		var key = new Structures.KEYBDINPUT();
@@ -40,12 +43,5 @@ public class KbdCtrl
 	public void Escape()
 	{
 		PressKey(Structures.VirtualKeyShort.ESCAPE);
-	}
-	
-	public void EscapeTwice()
-	{
-		Escape();
-		Thread.Sleep(333);
-		Escape();
 	}
 }

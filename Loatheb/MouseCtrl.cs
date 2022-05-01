@@ -7,19 +7,22 @@ public class MouseCtrl
 	private readonly Sys _sys;
 	private readonly Cfg _cfg;
 	private readonly Random _rnd;
+	private readonly Logger _logger;
 
 	private Structures.INPUT[] _moveInputs = null!;
 	private Structures.INPUT[] _clickInputs = null!;
 
-	public MouseCtrl(Sys sys, Cfg cfg)
+	public MouseCtrl(Sys sys, Cfg cfg, Logger logger)
 	{
 		_sys = sys;
 		_cfg = cfg;
+		_logger = logger;
 		_rnd = new Random();
 	}
 
 	public void Initialize()
 	{
+		_logger.Log("Initializing mouse controller");
 		_moveInputs = new Structures.INPUT[_cfg.MouseInputBatch];
 		_clickInputs = new Structures.INPUT[1];
 
@@ -56,15 +59,15 @@ public class MouseCtrl
 
 	public void Move(int x, int y)
 	{
-		if (x > _sys.ResX) Console.WriteLine($"WARN - {nameof(MouseCtrl)} - cursor move to {x} is out of screen res x {_sys.ResX}");
-		if (y > _sys.ResY) Console.WriteLine($"WARN - {nameof(MouseCtrl)} - cursor move to {y} is out of screen res y {_sys.ResY}");
+		if (x > _sys.ResX) _logger.Log($"WARN - {nameof(MouseCtrl)} - cursor move to {x} is out of screen res x {_sys.ResX}");
+		if (y > _sys.ResY) _logger.Log($"WARN - {nameof(MouseCtrl)} - cursor move to {y} is out of screen res y {_sys.ResY}");
 
 		var cursosPos = Win32Api.GetCursorPosition();
 
 		double pixelsToMoveX = x - cursosPos.X;
 		double pixelsToMoveY = y - cursosPos.Y;
 
-		Console.WriteLine($"Moving mouse from {cursosPos.X} / {cursosPos.Y} to {x} / {y}");
+		_logger.Log($"Moving mouse from {cursosPos.X} / {cursosPos.Y} to {x} / {y}");
 
 		var stepsX = Math.Abs(pixelsToMoveX / (_cfg.MouseRndMovePxUpperBound / 2.0) / _cfg.MouseInputBatch);
 		var stepsY = Math.Abs(pixelsToMoveY / (_cfg.MouseRndMovePxUpperBound / 2.0) / _cfg.MouseInputBatch);
