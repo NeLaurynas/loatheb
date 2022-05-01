@@ -34,7 +34,7 @@ public class Repairing
 		return res1 || res2 || res3;
 	}
 
-	public Step OpenPetMenuForRepairGear()
+	public Step CreateOpenPetMenuForRepairGearStep()
 	{
 		return new OpenPetMenuStep();
 	}

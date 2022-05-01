@@ -6,7 +6,7 @@ public class StepState
 
 	public int MaxIter { get; set; } = 1;
 	
-	public int? SleepDurationOnFail { get; set; }
+	public int? SleepDurationBeforeExecuting { get; set; }
 
 	public DateTime StartTime { get; set; }
 }

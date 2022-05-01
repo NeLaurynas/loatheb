@@ -31,6 +31,7 @@ public class Utils
 		public TryResettingUIStep(Step? nextStep)
 		{
 			_nextStep = nextStep;
+			State.SleepDurationBeforeExecuting = 3000;
 		}
 
 		public override async Task<Step?> Execute()
@@ -39,7 +40,7 @@ public class Utils
 			DI.KbdCtrl.EscapeTwice();
 			DI.MouseCtrl.SafePosition();
 			Thread.Sleep(333);
-			if (DI.OpenCV.IsMatching(DI.Images.GameMenu, 1150, 250, 400, 150, 0.9, false))
+			if (DI.OpenCV.IsMatching(DI.Images.GameMenu, 1150, 250, 400, 150, 0.9, true))
 			{
 				_logger.Log("Game menu is showing, sending ESC");
 				DI.KbdCtrl.Escape();

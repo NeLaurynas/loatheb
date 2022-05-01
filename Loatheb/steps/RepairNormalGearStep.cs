@@ -10,7 +10,7 @@ public class RepairNormalGearStep : Step
 	public override async Task<Step?> Execute()
 	{
 		if (await DI.Repairing.NeedsRepairingEquipment())
-			return DI.Repairing.OpenPetMenuForRepairGear();
+			return DI.Repairing.CreateOpenPetMenuForRepairGearStep();
 
 		return null; // return Enter Chaos Dungeon Step
 	}

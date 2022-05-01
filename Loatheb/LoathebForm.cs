@@ -106,13 +106,5 @@ namespace Loatheb
 			Thread.Sleep(2000);
 			// _utils.TryResettingUI();
         }
-
-        private async void btnGeneral_Click(object sender, EventArgs e)
-        {
-			_logger.Log("Will sleep for 2 seconds");
-			// todo: try activating fuken lost ark window
-			Thread.Sleep(2000);
-			await _overlord.Run();
-        }
-    }
+	}
 }

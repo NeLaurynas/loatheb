@@ -55,7 +55,6 @@ namespace Loatheb
             this.btnTakeSS = new System.Windows.Forms.Button();
             this.refreshLAWindowLocBtn = new System.Windows.Forms.Button();
             this.logBox = new System.Windows.Forms.TextBox();
-            this.btnGeneral = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -163,7 +162,6 @@ namespace Loatheb
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.btnGeneral);
             this.tabPage4.Controls.Add(this.btnTryResetUI);
             this.tabPage4.Controls.Add(this.groupBox1);
             this.tabPage4.Controls.Add(this.refreshLAWindowLocBtn);
@@ -330,16 +328,6 @@ namespace Loatheb
             this.logBox.TabIndex = 4;
             this.logBox.Text = "Hello\r\nThere\r\nGeneral\r\nKenobi!";
             // 
-            // btnGeneral
-            // 
-            this.btnGeneral.Location = new System.Drawing.Point(0, 61);
-            this.btnGeneral.Name = "btnGeneral";
-            this.btnGeneral.Size = new System.Drawing.Size(144, 23);
-            this.btnGeneral.TabIndex = 3;
-            this.btnGeneral.Text = "Something last tested";
-            this.btnGeneral.UseVisualStyleBackColor = true;
-            this.btnGeneral.Click += new System.EventHandler(this.btnGeneral_Click);
-            // 
             // LoathebForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -392,6 +380,5 @@ namespace Loatheb
         private PictureBox imgDebug;
         private Button btnTryResetUI;
         private BindableToolStripStatusLabel lblStatus2;
-        private Button btnGeneral;
     }
 }

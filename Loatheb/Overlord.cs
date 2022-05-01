@@ -14,7 +14,6 @@ public class Overlord : INotifyPropertyChanged
 	public Overlord(Logger logger)
 	{
 		_logger = logger;
-		_grindStep = new RepairNormalGearStep();
 	}
 
 	private bool _running;
@@ -37,6 +36,10 @@ public class Overlord : INotifyPropertyChanged
 
 		Running = true;
 		
+		// starts from RepairNormalGearStep
+		_grindStep = new RepairNormalGearStep();
+
+		DI.Sys.RefreshLAWindowLocation();
 		DI.Utils.ActivateLAWindow();
 
 		_logger.Log("Started executing grind steps");
@@ -72,6 +75,12 @@ public class Overlord : INotifyPropertyChanged
 			return null;
 		}
 		_logger.Log($"Executing {step.GetType().Name} - {step.State.IterCount} / {step.State.MaxIter}");
+
+		if (step.State.SleepDurationBeforeExecuting.HasValue)
+		{
+			_logger.Log($"Step {step.GetType().Name} waiting for {step.State.SleepDurationBeforeExecuting.Value}");
+			Thread.Sleep(step.State.SleepDurationBeforeExecuting.Value);
+		}
 
 		nextOne = await step.Execute();
 
