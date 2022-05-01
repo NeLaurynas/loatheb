@@ -44,4 +44,11 @@ public class KbdCtrl
 	{
 		PressKey(Structures.VirtualKeyShort.ESCAPE);
 	}
+	
+	public void EscapeTwice()
+	{
+		Escape();
+		Thread.Sleep(333);
+		Escape();
+	}
 }

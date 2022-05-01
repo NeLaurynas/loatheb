@@ -49,6 +49,10 @@ public class Images
 	public Image<Bgr, byte> LeaveBtn;
 	public Image<Bgr, byte> InsideDungeon;
 	public Image<Bgr, byte> Loading;
+	public Image<Bgr, byte> GearNeedsRepair1;
+	public Image<Bgr, byte> GearNeedsRepair2;
+	public Image<Bgr, byte> GearNeedsRepair3;
+	public Image<Bgr, byte> GameMenu;
 
 	private readonly Logger _logger;
 
@@ -106,5 +110,9 @@ public class Images
 		LeaveBtn = new Image<Bgr, Byte>("images/leaveBtn.png");
 		InsideDungeon = new Image<Bgr, Byte>("images/insideDungeon.png");
 		Loading = new Image<Bgr, Byte>("images/loading.png");
+		GearNeedsRepair1 = new Image<Bgr, Byte>("images/gearNeedsRepair1.jpg");
+		GearNeedsRepair2 = new Image<Bgr, Byte>("images/gearNeedsRepair2.png");
+		GearNeedsRepair3 = new Image<Bgr, Byte>("images/gearNeedsRepair3.png");
+		GameMenu = new Image<Bgr, Byte>("images/gameMenu.png");
 	}
 }

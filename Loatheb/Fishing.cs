@@ -41,9 +41,9 @@ public class Fishing
 			
 			_iter++;
 
-			if (Every(4) && _repairing.NeedsRepairingTool())
+			if (Every(4) && _repairing.NeedsRepairingToolOld())
 			{
-				_repairing.RepairTool();
+				_repairing.OldRepairToolOld();
 				_mouseCtrl.MoveFromCenter(333);
 			}
 			

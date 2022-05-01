@@ -9,10 +9,12 @@ public class Logger : INotifyPropertyChanged
 
 	private readonly string?[] _logs;
 	private int _logIdx = 1999;
+	private readonly LoathebForm _form;
 
-	public Logger()
+	public Logger(LoathebForm loathebForm)
 	{
 		_logs = new string[2000];
+		_form = loathebForm;
 	}
 
 	public void Log(string text)
@@ -35,6 +37,14 @@ public class Logger : INotifyPropertyChanged
 	[NotifyPropertyChangedInvocator]
 	protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		if (_form.InvokeRequired)
+		{
+			_form.Invoke(() =>
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			});
+		}
+		else
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }

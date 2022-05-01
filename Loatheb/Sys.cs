@@ -36,13 +36,20 @@ public class Sys
 
 	public void RefreshLAWindowLocation()
 	{
-		var laHandlePtr = Process.GetProcesses()
-			.FirstOrDefault(x => x.ProcessName.ToLowerInvariant().StartsWith(_cfg.LAProcessName.ToLowerInvariant()));
-		if (laHandlePtr is null) throw new Exception("Lost Ark process not found, is it running?");
+		var laHandlePtr = _getLAHandle();
 
 		var screenLocSuccess = Win32Api.GetWindowRect(laHandlePtr.MainWindowHandle, out _laScreenLoc);
 		if (!screenLocSuccess) throw new Exception("Couldn't get Lost Ark window lcoation");
 		
 		_logger.Log($"Refreshed LA Window location - {LAScreenX} / {LAScreenY}");
+	}
+
+	private Process _getLAHandle()
+	{
+		var laHandlePtr = Process.GetProcesses()
+			.FirstOrDefault(x => x.ProcessName.ToLowerInvariant().StartsWith(_cfg.LAProcessName.ToLowerInvariant()));
+		if (laHandlePtr is null) throw new Exception("Lost Ark process not found, is it running?");
+
+		return laHandlePtr!;
 	}
 }

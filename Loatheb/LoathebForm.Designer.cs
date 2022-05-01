@@ -31,7 +31,7 @@ namespace Loatheb
         {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.label1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblStatus = new Loatheb.winforms.BindableToolStripStatusLabel();
+            this.lblStatus2 = new Loatheb.winforms.BindableToolStripStatusLabel();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnStop = new System.Windows.Forms.Button();
@@ -40,6 +40,7 @@ namespace Loatheb
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnTryResetUI = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.imgDebug = new System.Windows.Forms.PictureBox();
             this.txtHeight = new System.Windows.Forms.TextBox();
@@ -54,6 +55,7 @@ namespace Loatheb
             this.btnTakeSS = new System.Windows.Forms.Button();
             this.refreshLAWindowLocBtn = new System.Windows.Forms.Button();
             this.logBox = new System.Windows.Forms.TextBox();
+            this.btnGeneral = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -66,7 +68,7 @@ namespace Loatheb
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.label1,
-            this.lblStatus});
+            this.lblStatus2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 689);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(984, 22);
@@ -79,11 +81,11 @@ namespace Loatheb
             this.label1.Size = new System.Drawing.Size(55, 17);
             this.label1.Text = "Running:";
             // 
-            // lblStatus
+            // lblStatus2
             // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(33, 17);
-            this.lblStatus.Text = "hello";
+            this.lblStatus2.Name = "lblStatus2";
+            this.lblStatus2.Size = new System.Drawing.Size(165, 17);
+            this.lblStatus2.Text = "bindableToolStripStatusLabel1";
             // 
             // tabs
             // 
@@ -161,6 +163,8 @@ namespace Loatheb
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.btnGeneral);
+            this.tabPage4.Controls.Add(this.btnTryResetUI);
             this.tabPage4.Controls.Add(this.groupBox1);
             this.tabPage4.Controls.Add(this.refreshLAWindowLocBtn);
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
@@ -169,6 +173,16 @@ namespace Loatheb
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Debug";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // btnTryResetUI
+            // 
+            this.btnTryResetUI.Location = new System.Drawing.Point(3, 32);
+            this.btnTryResetUI.Name = "btnTryResetUI";
+            this.btnTryResetUI.Size = new System.Drawing.Size(144, 23);
+            this.btnTryResetUI.TabIndex = 2;
+            this.btnTryResetUI.Text = "Try resetting UI";
+            this.btnTryResetUI.UseVisualStyleBackColor = true;
+            this.btnTryResetUI.Click += new System.EventHandler(this.btnTryResetUI_Click);
             // 
             // groupBox1
             // 
@@ -316,6 +330,16 @@ namespace Loatheb
             this.logBox.TabIndex = 4;
             this.logBox.Text = "Hello\r\nThere\r\nGeneral\r\nKenobi!";
             // 
+            // btnGeneral
+            // 
+            this.btnGeneral.Location = new System.Drawing.Point(0, 61);
+            this.btnGeneral.Name = "btnGeneral";
+            this.btnGeneral.Size = new System.Drawing.Size(144, 23);
+            this.btnGeneral.TabIndex = 3;
+            this.btnGeneral.Text = "Something last tested";
+            this.btnGeneral.UseVisualStyleBackColor = true;
+            this.btnGeneral.Click += new System.EventHandler(this.btnGeneral_Click);
+            // 
             // LoathebForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -354,7 +378,6 @@ namespace Loatheb
         private Button refreshLAWindowLocBtn;
         private Button btnStop;
         private Button btnStart;
-        private BindableToolStripStatusLabel lblStatus;
         private GroupBox groupBox1;
         private TextBox txtWidth;
         private Label label5;
@@ -367,5 +390,8 @@ namespace Loatheb
         private TextBox txtHeight;
         private Label label6;
         private PictureBox imgDebug;
+        private Button btnTryResetUI;
+        private BindableToolStripStatusLabel lblStatus2;
+        private Button btnGeneral;
     }
 }

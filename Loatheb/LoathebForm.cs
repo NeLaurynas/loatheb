@@ -13,50 +13,62 @@ namespace Loatheb
 		private Fishing _fishing;
 		private Overlord _overlord;
 		private UIControl _uiControl;
+		private Utils _utils;
 		
 		public LoathebForm()
 		{
 			InitializeComponent();
 
-			_logger = new Logger();
+			_logger = new Logger(this);
 			logBox.DataBindings.Add("Text", _logger, nameof(Logger.Logs));
+			DI.Logger = _logger;
 			_logger.Log("Initialized logger");
 
 			_cfg = new Cfg(_logger);
 			_cfg.Initialize();
 			_logger.Log("Initialized configuration");
 
-			_uiControl = new UIControl(_logger);
+			_uiControl = new UIControl(_logger, this);
 			imgDebug.DataBindings.Add("Image", _uiControl, nameof(UIControl.DebugImage));
 			_logger.Log("Initialized UI control");
 
 			_sys = new Sys(_cfg, _logger);
 			_sys.Initialize();
+			DI.Sys = _sys;
 			_logger.Log("Initialized system");
 
 			_mouseCtrl = new MouseCtrl(_sys, _cfg, _logger);
 			_mouseCtrl.Initialize();
+			DI.MouseCtrl = _mouseCtrl;
 			_logger.Log("Initialized mouse controller");
 			
 			_kbdCtrl = new KbdCtrl(_cfg, _logger);
-			_mouseCtrl.Initialize();
+			_kbdCtrl.Initialize();
+			DI.KbdCtrl = _kbdCtrl;
 			_logger.Log("Initialized keyboard controller");
 
 			_images = new Images(_logger);
 			_images.Initialize();
+			DI.Images = _images;
 			_logger.Log("Initialized images");
 
-			_openCv = new OpenCV(_sys, _logger);
+			_openCv = new OpenCV(_sys, _logger, _uiControl);
+			DI.OpenCV = _openCv;
 			_logger.Log("Initialized open cv");
 
 			_repairing = new Repairing(_images, _mouseCtrl, _openCv, _kbdCtrl, _logger);
+			DI.Repairing = _repairing;
 			_logger.Log("Initialized repairing module");
 
 			_fishing = new Fishing(_images, _kbdCtrl, _openCv, _repairing, _mouseCtrl, _logger);
 			_logger.Log("Initialized fishing module");
 
+			_utils = new Utils(_logger, _kbdCtrl, _mouseCtrl, _openCv, _images);
+			DI.Utils = _utils;
+			_logger.Log("Initialized utils");
+
 			_overlord = new Overlord(_logger);
-			lblStatus.DataBindings.Add("Text", _overlord, nameof(Overlord.Running));
+			lblStatus2.DataBindings.Add("Text", _overlord, nameof(Overlord.Running));
 			_logger.Log("Overlord initialized");
 		}
 
@@ -87,5 +99,20 @@ namespace Loatheb
 				_logger.Log("Couldn't take screenshot - X/Y/Width/Height not a valid number");
 			}
         }
-	}
+
+        private void btnTryResetUI_Click(object sender, EventArgs e)
+        {
+			_logger.Log("Will sleep for 2 seconds");
+			Thread.Sleep(2000);
+			// _utils.TryResettingUI();
+        }
+
+        private async void btnGeneral_Click(object sender, EventArgs e)
+        {
+			_logger.Log("Will sleep for 2 seconds");
+			// todo: try activating fuken lost ark window
+			Thread.Sleep(2000);
+			await _overlord.Run();
+        }
+    }
 }
