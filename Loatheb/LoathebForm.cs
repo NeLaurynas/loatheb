@@ -13,11 +13,12 @@ namespace Loatheb
 		private Fishing _fishing;
 		private Overlord _overlord;
 		private UIControl _uiControl;
-		private Utils _utils;
-		
+
 		public LoathebForm()
 		{
 			InitializeComponent();
+
+			DI.Rnd = new Random();
 
 			_logger = new Logger(this);
 			logBox.DataBindings.Add("Text", _logger, nameof(Logger.Logs));
@@ -26,6 +27,7 @@ namespace Loatheb
 
 			_cfg = new Cfg(_logger);
 			_cfg.Initialize();
+			DI.Cfg = _cfg;
 			_logger.Log("Initialized configuration");
 
 			_uiControl = new UIControl(_logger, this);
@@ -63,11 +65,7 @@ namespace Loatheb
 			_fishing = new Fishing(_images, _kbdCtrl, _openCv, _repairing, _mouseCtrl, _logger);
 			_logger.Log("Initialized fishing module");
 
-			_utils = new Utils(_logger, _kbdCtrl, _mouseCtrl, _openCv, _images);
-			DI.Utils = _utils;
-			_logger.Log("Initialized utils");
-
-			_overlord = new Overlord(_logger);
+			_overlord = new Overlord(_logger, this);
 			lblStatus2.DataBindings.Add("Text", _overlord, nameof(Overlord.Running));
 			_logger.Log("Overlord initialized");
 		}

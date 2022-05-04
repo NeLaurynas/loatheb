@@ -53,6 +53,9 @@ public class Images
 	public Image<Bgr, byte> GearNeedsRepair2;
 	public Image<Bgr, byte> GearNeedsRepair3;
 	public Image<Bgr, byte> GameMenu;
+	public Image<Bgr, byte> RepairGearBtn;
+	public Image<Bgr, byte> RepairEquippedGearBtn;
+	public Image<Bgr, byte> TopRightElement;
 
 	private readonly Logger _logger;
 
@@ -114,5 +117,8 @@ public class Images
 		GearNeedsRepair2 = new Image<Bgr, Byte>("images/gearNeedsRepair2.png");
 		GearNeedsRepair3 = new Image<Bgr, Byte>("images/gearNeedsRepair3.png");
 		GameMenu = new Image<Bgr, Byte>("images/gameMenu.png");
+		RepairGearBtn = new Image<Bgr, Byte>("images/repairGearBtn.png");
+		RepairEquippedGearBtn = new Image<Bgr, Byte>("images/repairEquippedGear.png");
+		TopRightElement = new Image<Bgr, Byte>("images/topRightEl.png");
 	}
 }

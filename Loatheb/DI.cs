@@ -8,7 +8,8 @@ public static class DI
 	public static OpenCV OpenCV { get; set; }
 	public static Images Images { get; set; }
 	public static Logger Logger { get; set; }
-	public static Utils Utils { get; set; }
 	public static Repairing Repairing { get; set; }
 	public static Sys Sys { get; set; }
+	public static Cfg Cfg { get; set; }
+	public static Random Rnd { get; set; }
 }

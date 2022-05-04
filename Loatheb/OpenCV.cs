@@ -113,28 +113,28 @@ public class OpenCV
 	public bool IsMatching(Image<Bgr, Byte> template, double confidence = 0.9, ScreenPart part = ScreenPart.Full)
 	{
 		var (result, _) = Match(template, part);
-		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, # - {result.Length}");
 		return result.Length == 1 && result[0] >= confidence;
 	}
 
 	public bool IsMatching(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9, bool setDebugImage = false)
 	{
 		var (result, _) = Match(template, x, y, width, height, setDebugImage);
-		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, # - {result.Length}");
 		return result.Length == 1 && result[0] >= confidence;
 	}
 
 	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9)
 	{
 		var (result, maxLocations) = Match(template, x, y, width, height);
-		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, # - {result.Length}");
 		return (result.Length == 1 && result[0] >= confidence, maxLocations);
 	}
 
 	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, double confidence = 0.9, ScreenPart part = ScreenPart.Full)
 	{
 		var (result, maxLocations) = Match(template, part);
-		_logger.Log($"C - {result.Length}, V - {result.FirstOrDefault()}");
+		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, ## - {result.Length}");
 		return (result.Length == 1 && result[0] >= confidence, maxLocations);
 	}
 }

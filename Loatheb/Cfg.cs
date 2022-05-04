@@ -35,7 +35,7 @@ public class Cfg
 		FishingLetter = "F";
 
 		DelayAfterUpAndDown = 2300;
-		DelayBetweenSkills = 400;
+		DelayBetweenSkills = 500;
 		ChanceToMove = 20;
 	}
 }

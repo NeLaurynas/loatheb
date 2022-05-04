@@ -50,6 +50,13 @@ public class MouseCtrl
 		Move(locations[0].X, locations[0].Y);
 	}
 
+	public void MoveAndClick(Point[] locations)
+	{
+		Move(locations);
+		Thread.Sleep(100);
+		Click();
+	}
+
 	public void MoveFromCenter(int x = 0, int y = 0)
 	{
 		var newPosX = _sys.LAScreenX + _sys.LAScreenWidth / 2 + x;

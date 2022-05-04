@@ -18,47 +18,7 @@ public class Repairing
 		_kbdCtrl = kbdCtrl;
 		_logger = logger;
 	}
-
-	// NEW ------------------------
-	public async Task<bool> NeedsRepairingEquipment()
-	{
-		_logger.Log("Checking if gear needs repairing");
-		var task1 = Task.Run(() => _openCv.IsMatching(_images.GearNeedsRepair1, 2000, 0, 150, 120));
-		var task2 = Task.Run(() => _openCv.IsMatching(_images.GearNeedsRepair2, 2000, 0, 150, 120));
-		var task3 = Task.Run(() => _openCv.IsMatching(_images.GearNeedsRepair3, 2000, 0, 150, 120));
-
-		var res1 = await task1;
-		var res2 = await task1;
-		var res3 = await task1;
-
-		return res1 || res2 || res3;
-	}
-
-	public Step CreateOpenPetMenuForRepairGearStep()
-	{
-		return new OpenPetMenuStep();
-	}
-
-	public class OpenPetMenuStep : Step
-	{
-		public OpenPetMenuStep()
-		{
-			State.MaxIter = 3;
-		}
-
-		public override async Task<Step?> Execute()
-		{
-			_logger.Log("Opening Pet Menu for repairs");
-			await Task.Yield();
-			if (!false) // try opening pet menu, pretend to fail
-			{
-				return DI.Utils.CreateTryResettingUIStep(this);
-			}
-			
-			return await base.Execute();
-		}
-	}
-
+	
 	// OLD -----------------------------
 	#region OLD
 

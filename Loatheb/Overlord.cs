@@ -7,13 +7,15 @@ namespace Loatheb;
 public class Overlord : INotifyPropertyChanged
 {
 	private readonly Logger _logger;
+	private readonly LoathebForm _form;
 
-	private Step _grindStep;
-	private Step _fishingStep;
+	private StepBase _grindStep;
+	private StepBase _fishingStep;
 
-	public Overlord(Logger logger)
+	public Overlord(Logger logger, LoathebForm form)
 	{
 		_logger = logger;
+		_form = form;
 	}
 
 	private bool _running;
@@ -35,12 +37,11 @@ public class Overlord : INotifyPropertyChanged
 		if (Running) return;
 
 		Running = true;
-		
-		// starts from RepairNormalGearStep
-		_grindStep = new RepairNormalGearStep();
+
+		_grindStep = RepairEquipmentSteps.RepairEquipmentBegin;
 
 		DI.Sys.RefreshLAWindowLocation();
-		DI.Utils.ActivateLAWindow();
+		Utils.ActivateLAWindow();
 
 		_logger.Log("Started executing grind steps");
 
@@ -57,56 +58,45 @@ public class Overlord : INotifyPropertyChanged
 		Running = false;
 	}
 
-	public void Initialize()
+	private async Task<StepBase?> ExecuteStep(StepBase step)
 	{
-		_logger.Log("Initializing Overlord - constructing steps");
-	}
-
-	private async Task<Step?> ExecuteStep(Step step)
-	{
-		Step? nextOne;
-
-		step.State.IterCount++;
-
-		if (step.State.IterCount > step.State.MaxIter)
+		try
 		{
-			_logger.Log($"Step {step.GetType().Name} reached max iteration count, halting");
+			StepBase? nextOne;
+
+			step.State.Iter++;
+
+			if (step.State.Iter > step.State.MaxIter)
+			{
+				_logger.Log($"Step {step.GetType().Name} reached max iteration count, halting");
+				Running = false;
+				return null;
+			}
+			_logger.Log($"Executing {step.GetType().Name} - {step.State.Iter} / {step.State.MaxIter}");
+
+			if (step.State.SleepDurationBeforeExecuting.HasValue)
+			{
+				_logger.Log($"Step {step.GetType().Name} waiting for {step.State.SleepDurationBeforeExecuting.Value}");
+				Thread.Sleep(step.State.SleepDurationBeforeExecuting.Value);
+			}
+
+			nextOne = await step.Execute();
+			step.AfterExec();
+
+			if (nextOne == null)
+			{
+				_logger.Log($"Next step returned by {step.GetType().Name} was null");
+				return null;
+			}
+
+			return await ExecuteStep(nextOne);
+		}
+		catch (Exception ex)
+		{
+			DI.Logger.Log($"Exception: {ex.Message}");
 			Running = false;
 			return null;
 		}
-		_logger.Log($"Executing {step.GetType().Name} - {step.State.IterCount} / {step.State.MaxIter}");
-
-		if (step.State.SleepDurationBeforeExecuting.HasValue)
-		{
-			_logger.Log($"Step {step.GetType().Name} waiting for {step.State.SleepDurationBeforeExecuting.Value}");
-			Thread.Sleep(step.State.SleepDurationBeforeExecuting.Value);
-		}
-
-		nextOne = await step.Execute();
-
-		if (nextOne == null)
-		{
-			_logger.Log($"Next step returned by {step.GetType().Name} was null");
-			return null;
-		}
-
-		// await ExecuteStep(nextOne);
-		// if (result == true)
-		// 	await ExecuteStep(step.OkStep);
-		// else if (result == false)
-		// {
-		// 	var sleepTime = step.State.SleepDurationOnFail ?? 5000;
-		// 	Thread.Sleep(sleepTime);
-		// 	if (step.FailStep != null)
-		// 		await ExecuteStep(step.FailStep);
-		// 	else
-		// 	{
-		// 		_logger.Log($"Step {step.GetType().Name} failed, but had no fail step, retrying");
-		// 		return null;
-		// 	}
-		// }
-		
-		return await ExecuteStep(nextOne);
 	}
 
 	public event PropertyChangedEventHandler? PropertyChanged;
@@ -114,6 +104,12 @@ public class Overlord : INotifyPropertyChanged
 	[NotifyPropertyChangedInvocator]
 	protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		if (_form.InvokeRequired)
+			_form.Invoke(() =>
+			{
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			});
+		else
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }
