@@ -57,14 +57,14 @@ public class ClickEnterChaosDungeonStep : StepBase
 			}
 		}
 		
-		Utils.TryUntilTrue(Utils.IsLoaded, 20, 2000);
+		Utils.TryUntilTrue(Utils.IsLoaded, 40, 1000);
 
 		if (Utils.TryUntilTrue(Utils.InsideChaosDungeon, 5, 1000))
 		{
 			return GrindSteps.P1MoveUpDownStep;
 		}
 
-		throw new Exception("Not inside dungeon?");
+		return RepairEquipmentSteps.RepairEquipmentBegin;
 	}
 
 	public bool ClickEnter()

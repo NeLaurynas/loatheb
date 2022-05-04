@@ -12,7 +12,7 @@ public class LeaveChaosDungeonStep : StepBase
 		State = new StepStateBase
 		{
 			MaxIter = 4,
-			SleepDurationBeforeExecuting = 1000
+			SleepDurationBeforeExecuting = 200
 		};
 	}
 
@@ -29,7 +29,7 @@ public class LeaveChaosDungeonStep : StepBase
 			}
 		}
 
-		Utils.TryUntilTrue(Utils.IsLoaded, 15, 1000);
+		Utils.TryUntilTrue(Utils.IsLoaded, 30, 1000);
 
 		if (Utils.InsideChaosDungeon())
 		{

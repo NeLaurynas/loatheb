@@ -1,6 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-namespace Loatheb.steps.grindSteps;
+﻿namespace Loatheb.steps.grindSteps;
 
 public class P1MainBattleStep : StepBase
 {
@@ -38,6 +36,7 @@ public class P1MainBattleStep : StepBase
 	
 	public async Task<bool> CanProceedToP2()
 	{
+		// TODO: check if it's running!
 		DI.Logger.Log("Checking if it's time to bail");
 		var p19Task = Task.Run(() => DI.OpenCV.IsMatching(DI.Images.Prog19, 5, 30, 280, 300, 0.85));
 		var p20Task = Task.Run(() => DI.OpenCV.IsMatching(DI.Images.Prog20, 5, 30, 280, 300, 0.85));
