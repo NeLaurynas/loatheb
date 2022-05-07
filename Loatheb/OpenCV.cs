@@ -44,34 +44,6 @@ public class OpenCV
 		return Match(template, xPadding, yPadding, width, height);
 	}
 
-	public Bitmap Temp(ScreenPart part = ScreenPart.Full)
-	{
-		var width = part switch
-		{
-			ScreenPart.Left => _sys.LAScreenWidth / 2,
-			ScreenPart.Right => _sys.LAScreenWidth / 2,
-			_ => 0
-		};
-		var height = part switch
-		{
-			ScreenPart.Top => _sys.LAScreenHeight / 2 - 210,
-			ScreenPart.Bottom => _sys.LAScreenHeight / 2 - 210,
-			_ => 0
-		};
-		var xPadding = part switch
-		{
-			ScreenPart.Right => _sys.LAScreenWidth / 2,
-			_ => 0
-		};
-		var yPadding = part switch
-		{
-			ScreenPart.Bottom => _sys.LAScreenHeight / 2 - 210,
-			_ => 0
-		};
-
-		return TakeScreenshot(xPadding, yPadding, width, height);
-	}
-
 	public Bitmap TakeScreenshot(int x, int y, int width = 0, int height = 0, bool setDebugImage = false)
 	{
 		y += 210; // cut off top black bar
@@ -92,6 +64,11 @@ public class OpenCV
 		}
 
 		return bitmap;
+	}
+
+	public (double[] maxValues, Point[] maxLocations) Match(Image<Bgr, Byte> template, ScreenLoc loc, bool setDebugImage = false)
+	{
+		return Match(template, loc.X, loc.Y, loc.Width, loc.Height, setDebugImage);
 	}
 
 	public (double[] maxValues, Point[] maxLocations) Match(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, bool setDebugImage = false)
@@ -117,11 +94,21 @@ public class OpenCV
 		return result.Length == 1 && result[0] >= confidence;
 	}
 
+	public bool IsMatching(Image<Bgr, Byte> template, ScreenLoc loc, double confidence = 0.9, bool setDebugImage = false)
+	{
+		return IsMatching(template, loc.X, loc.Y, loc.Width, loc.Height, confidence, setDebugImage);
+	}
+
 	public bool IsMatching(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9, bool setDebugImage = false)
 	{
 		var (result, _) = Match(template, x, y, width, height, setDebugImage);
 		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, # - {result.Length}");
 		return result.Length == 1 && result[0] >= confidence;
+	}
+
+	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, ScreenLoc loc, double confidence = 0.9)
+	{
+		return IsMatchingWhere(template, loc.X, loc.Y, loc.Width, loc.Height, confidence);
 	}
 
 	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9)

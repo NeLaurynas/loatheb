@@ -57,6 +57,61 @@ public class MouseCtrl
 		Click();
 	}
 
+	public void MoveMinimapDistance(Point[] locations)
+	{
+		const int centerX = 2380;
+		const int centerY = 172;
+		var loc = locations.FirstOrDefault();
+		// System.Diagnostics.Debugger.Break();
+		
+		if (loc != default)
+		{
+			var minimapX = loc.X - DI.Sys.LAScreenX;
+			var minimapY = loc.Y - DI.Sys.LAScreenY - 210;
+
+			var distanceOnMiniX = minimapX - centerX;
+			var distanceOnMiniY = minimapY - centerY;
+			var movingRight = distanceOnMiniX > 0;
+			var movingTop = distanceOnMiniY < 0;
+
+			DI.Logger.Log($"dist: {distanceOnMiniX}");
+
+			int toMoveY = 3;
+			do
+			{
+				int toMoveX;
+				if (movingRight)
+				{
+					toMoveX = distanceOnMiniX > 34 ? 34 : distanceOnMiniX;
+					distanceOnMiniX = Math.Max(0, distanceOnMiniX - toMoveX);
+					DI.Logger.Log($"IF: {distanceOnMiniX}");
+				}
+				else
+				{
+					toMoveX = Math.Abs(distanceOnMiniX) > 34 ? -34 : distanceOnMiniX;
+					distanceOnMiniX = Math.Min(0, distanceOnMiniX + Math.Abs(toMoveX));
+					DI.Logger.Log($"ELSE: {distanceOnMiniX}");
+				}
+
+				if (movingTop)
+				{
+					toMoveY = Math.Abs(distanceOnMiniY) > 23 ? -23 : distanceOnMiniY;
+					distanceOnMiniY = Math.Min(0, distanceOnMiniY + Math.Abs(toMoveY));
+				}
+				else
+				{
+					toMoveY = distanceOnMiniY > 16 ? 16 : distanceOnMiniY;
+					distanceOnMiniY = Math.Max(0, distanceOnMiniY - toMoveY);
+				}
+				
+				MoveFromCenter((int)((movingRight ? 2145d : 2320d) * toMoveX / 34d / 2), (int)((movingTop ? 470d : 370d) * toMoveY / (movingTop ? 23d : 16d)));
+				Click();
+				Thread.Sleep(2700);
+			}
+			while (distanceOnMiniX != 0 || distanceOnMiniY != 0); 
+		}
+	}
+
 	public void MoveFromCenter(int x = 0, int y = 0)
 	{
 		var newPosX = _sys.LAScreenX + _sys.LAScreenWidth / 2 + x;

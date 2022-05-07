@@ -8,5 +8,10 @@ public class StepStateBase
 
 	public int? SleepDurationBeforeExecuting { get; set; } = null;
 
-	public static StepStateBase Default = new();
+	public int? SleepDurationAfterExecution { get; set; } = null;
+}
+
+public class StepStateWithNextStep : StepStateBase
+{
+	public StepBase? NextStep { get; set; }
 }

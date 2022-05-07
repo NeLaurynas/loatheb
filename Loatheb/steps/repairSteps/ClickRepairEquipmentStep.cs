@@ -17,6 +17,7 @@ public class ClickRepairEquipmentStep : StepBase
 
 	public override async Task<StepBase?> Execute()
 	{
+		await Task.Yield();
 		var (matches, locations) = DI.OpenCV.IsMatchingWhere(DI.Images.RepairEquippedGearBtn, 1300, 350, 200, 150);
 
 		if (matches)

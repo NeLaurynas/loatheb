@@ -1,3 +1,5 @@
+using Loatheb.steps;
+using Loatheb.steps.grindSteps;
 namespace Loatheb
 {
 	public partial class LoathebForm : Form
@@ -67,6 +69,7 @@ namespace Loatheb
 
 			_overlord = new Overlord(_logger, this);
 			lblStatus2.DataBindings.Add("Text", _overlord, nameof(Overlord.Running));
+			DI.Overlord = _overlord;
 			_logger.Log("Overlord initialized");
 		}
 
@@ -98,11 +101,22 @@ namespace Loatheb
 			}
         }
 
-        private void btnTryResetUI_Click(object sender, EventArgs e)
+        private void btnTmpMoveDog_Click(object sender, EventArgs e)
         {
-			_logger.Log("Will sleep for 2 seconds");
-			Thread.Sleep(2000);
-			// _utils.TryResettingUI();
+			Utils.ActivateLAWindow();
+			
+			DI.Logger.Log("Trying to match dog on minimap");
+			var (matches, location) = DI.OpenCV.IsMatchingWhere(DI.Images.TmpDog, ScreenLocations.Minimap, 0.85);
+
+			if (matches)
+			{
+				DI.Logger.Log("Match");
+				DI.MouseCtrl.MoveMinimapDistance(location);
+			}
+			else
+			{
+				DI.Logger.Log("No match");
+			}
         }
-	}
+    }
 }

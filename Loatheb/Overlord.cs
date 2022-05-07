@@ -38,7 +38,7 @@ public class Overlord : INotifyPropertyChanged
 
 		Running = true;
 
-		_grindStep = RepairEquipmentSteps.RepairEquipmentBegin;
+		_grindStep = UtilSteps.CreateTryResettingUIStep(RepairEquipmentSteps.RepairEquipmentBegin);
 
 		DI.Sys.RefreshLAWindowLocation();
 		Utils.ActivateLAWindow();
@@ -79,13 +79,25 @@ public class Overlord : INotifyPropertyChanged
 				_logger.Log($"Step {step.GetType().Name} waiting for {step.State.SleepDurationBeforeExecuting.Value}");
 				Thread.Sleep(step.State.SleepDurationBeforeExecuting.Value);
 			}
-
+			
 			nextOne = await step.Execute();
 			step.AfterExec();
 
+			if (step.State.SleepDurationAfterExecution.HasValue)
+			{
+				_logger.Log($"Step {step.GetType().Name} waiting for {step.State.SleepDurationAfterExecution.Value}");
+				Thread.Sleep(step.State.SleepDurationAfterExecution.Value);
+			}
+			
 			if (nextOne == null)
 			{
 				_logger.Log($"Next step returned by {step.GetType().Name} was null");
+				return null;
+			}
+
+			if (!Running)
+			{
+				DI.Logger.Log("Stopping?");
 				return null;
 			}
 

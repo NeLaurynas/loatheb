@@ -39,8 +39,8 @@ namespace Loatheb
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.btnTryResetUI = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.imgDebug = new System.Windows.Forms.PictureBox();
             this.txtHeight = new System.Windows.Forms.TextBox();
@@ -55,9 +55,11 @@ namespace Loatheb
             this.btnTakeSS = new System.Windows.Forms.Button();
             this.refreshLAWindowLocBtn = new System.Windows.Forms.Button();
             this.logBox = new System.Windows.Forms.TextBox();
+            this.btnTmpMoveDog = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgDebug)).BeginInit();
@@ -153,6 +155,7 @@ namespace Loatheb
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(976, 661);
@@ -160,9 +163,19 @@ namespace Loatheb
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label7.Location = new System.Drawing.Point(8, 11);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(473, 25);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "For now - manually edit .\\cfg.ini file and reload application";
+            // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.btnTryResetUI);
+            this.tabPage4.Controls.Add(this.btnTmpMoveDog);
             this.tabPage4.Controls.Add(this.groupBox1);
             this.tabPage4.Controls.Add(this.refreshLAWindowLocBtn);
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
@@ -171,16 +184,6 @@ namespace Loatheb
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Debug";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // btnTryResetUI
-            // 
-            this.btnTryResetUI.Location = new System.Drawing.Point(3, 32);
-            this.btnTryResetUI.Name = "btnTryResetUI";
-            this.btnTryResetUI.Size = new System.Drawing.Size(144, 23);
-            this.btnTryResetUI.TabIndex = 2;
-            this.btnTryResetUI.Text = "Try resetting UI";
-            this.btnTryResetUI.UseVisualStyleBackColor = true;
-            this.btnTryResetUI.Click += new System.EventHandler(this.btnTryResetUI_Click);
             // 
             // groupBox1
             // 
@@ -328,6 +331,16 @@ namespace Loatheb
             this.logBox.TabIndex = 4;
             this.logBox.Text = "Hello\r\nThere\r\nGeneral\r\nKenobi!";
             // 
+            // btnTmpMoveDog
+            // 
+            this.btnTmpMoveDog.Location = new System.Drawing.Point(3, 32);
+            this.btnTmpMoveDog.Name = "btnTmpMoveDog";
+            this.btnTmpMoveDog.Size = new System.Drawing.Size(144, 23);
+            this.btnTmpMoveDog.TabIndex = 2;
+            this.btnTmpMoveDog.Text = "Try moving to the dog";
+            this.btnTmpMoveDog.UseVisualStyleBackColor = true;
+            this.btnTmpMoveDog.Click += new System.EventHandler(this.btnTmpMoveDog_Click);
+            // 
             // LoathebForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -344,6 +357,8 @@ namespace Loatheb
             this.statusStrip1.PerformLayout();
             this.tabs.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -378,7 +393,8 @@ namespace Loatheb
         private TextBox txtHeight;
         private Label label6;
         private PictureBox imgDebug;
-        private Button btnTryResetUI;
         private BindableToolStripStatusLabel lblStatus2;
+        private Label label7;
+        private Button btnTmpMoveDog;
     }
 }

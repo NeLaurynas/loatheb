@@ -4,6 +4,7 @@ public class ClickEnterChaosDungeonStep : StepBase
 {
 	public override async Task<StepBase?> Execute()
 	{
+		await Task.Yield();
 		var dungeonSelected = false;
 
 		for (var i = 0; i < 2; i++)
@@ -61,7 +62,8 @@ public class ClickEnterChaosDungeonStep : StepBase
 
 		if (Utils.TryUntilTrue(Utils.InsideChaosDungeon, 5, 1000))
 		{
-			return GrindSteps.P1MoveUpDownStep;
+			var wtf = GrindSteps.P1MainBattleStep;
+			return GrindSteps.CreateMoveUpDownStep(wtf);
 		}
 
 		return RepairEquipmentSteps.RepairEquipmentBegin;

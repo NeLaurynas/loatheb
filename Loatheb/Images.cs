@@ -56,6 +56,20 @@ public class Images
 	public Image<Bgr, byte> RepairGearBtn;
 	public Image<Bgr, byte> RepairEquippedGearBtn;
 	public Image<Bgr, byte> TopRightElement;
+	public Image<Bgr, byte> Portal1;
+	public Image<Bgr, byte> Portal2;
+	public Image<Bgr, byte> Portal3;
+	public Image<Bgr, byte> Portal4;	
+	public Image<Bgr, byte> PortalMini1;
+	public Image<Bgr, byte> PortalMini2;
+	public Image<Bgr, byte> PortalMini3;
+	public Image<Bgr, byte> PortalMini4;
+	public Image<Bgr, byte> LowHP1;
+	public Image<Bgr, byte> LowHP2;
+	public Image<Bgr, byte> MoveIcon;
+	public Image<Bgr, byte> YouDiedTitle;
+	public Image<Bgr, byte> LeaveDiedBtn;
+	public Image<Bgr, byte> TmpDog;
 
 	private readonly Logger _logger;
 
@@ -120,5 +134,19 @@ public class Images
 		RepairGearBtn = new Image<Bgr, Byte>("images/repairGearBtn.png");
 		RepairEquippedGearBtn = new Image<Bgr, Byte>("images/repairEquippedGear.png");
 		TopRightElement = new Image<Bgr, Byte>("images/topRightEl.png");
+		Portal1 = new Image<Bgr, Byte>("images/portal1.png");
+		Portal2 = new Image<Bgr, Byte>("images/portal2.png");
+		Portal3 = new Image<Bgr, Byte>("images/portal3.png");
+		Portal4 = new Image<Bgr, Byte>("images/portal4.png");
+		PortalMini1 = new Image<Bgr, Byte>("images/portalMini1.png");
+		PortalMini2 = new Image<Bgr, Byte>("images/portalMini2.png");
+		PortalMini3 = new Image<Bgr, Byte>("images/portalMini3.png");
+		PortalMini4 = new Image<Bgr, Byte>("images/portalMini4.png");
+		LowHP1 = new Image<Bgr, Byte>("images/lowHP1.png");
+		LowHP2 = new Image<Bgr, Byte>("images/lowHP2.png");
+		MoveIcon = new Image<Bgr, Byte>("images/moveIcon.png");
+		YouDiedTitle = new Image<Bgr, Byte>("images/youDiedTitle.png");
+		LeaveDiedBtn = new Image<Bgr, Byte>("images/leaveDiedBtn.png");
+		TmpDog = new Image<Bgr, Byte>("images/tmpDog.png");
 	}
 }

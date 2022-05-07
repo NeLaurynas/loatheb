@@ -18,6 +18,7 @@ public class LeaveChaosDungeonStep : StepBase
 
 	public override async Task<StepBase?> Execute()
 	{
+		await Task.Yield();
 		var (matches, locations) = DI.OpenCV.IsMatchingWhere(DI.Images.LeaveBtn, 5, 30, 280, 300);
 		if (matches)
 		{

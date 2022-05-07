@@ -1,9 +1,20 @@
 ﻿namespace Loatheb.steps.grindSteps;
 
-public class P1MoveUpDownStep : StepBase
+public class MoveUpDownStep : StepBase
 {
+	public override StepStateWithNextStep State
+	{
+		get;
+	}
+
+	public MoveUpDownStep()
+	{
+		State = new StepStateWithNextStep();
+	}
+
 	public override async Task<StepBase?> Execute()
 	{
+		await Task.Yield();
 		var upCount = DI.Rnd.Next(150, 300);
 		DI.MouseCtrl.MoveFromCenter(y: upCount);
 		DI.MouseCtrl.Click();
@@ -22,11 +33,17 @@ public class P1MoveUpDownStep : StepBase
 		
 		Thread.Sleep(DI.Cfg.DelayAfterUpAndDown);
 
-		return GrindSteps.P1MainBattleStep;
+		return State.NextStep;
 	}
 
 	public override void AfterExec()
 	{
 		ResetState();
+	}
+
+	public override void ResetState()
+	{
+		base.ResetState();
+		State.NextStep = null;
 	}
 }

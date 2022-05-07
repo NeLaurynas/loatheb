@@ -25,7 +25,7 @@ public class P1MainBattleStep : StepBase
 			}
 			while (!await CanProceedToP2());
 
-			return GrindSteps.LeaveChaosDungeonStep; // actually to P2
+			return GrindSteps.ProceedToP2Step;
 		}
 		catch (Exception ex)
 		{

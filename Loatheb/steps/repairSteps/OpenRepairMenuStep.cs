@@ -4,6 +4,7 @@ public class OpenRepairMenuStep : StepBase
 {
 	public override async Task<StepBase?> Execute()
 	{
+		await Task.Yield();
 		DI.Logger.Log("Opening repair window");
 
 		var (matches, locations) = DI.OpenCV.IsMatchingWhere(DI.Images.RepairGearBtn, 1500, 550, 220, 200);

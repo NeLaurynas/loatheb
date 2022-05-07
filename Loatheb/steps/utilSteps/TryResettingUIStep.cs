@@ -20,6 +20,7 @@ public class TryResettingUIStep : StepBase
 
 	public override async Task<StepBase?> Execute()
 	{
+		await Task.Yield();
 		DI.Logger.Log("Trying to reset UI");
 		DI.KbdCtrl.EscapeTwice();
 		DI.MouseCtrl.SafePosition();

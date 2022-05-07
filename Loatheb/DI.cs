@@ -12,4 +12,5 @@ public static class DI
 	public static Sys Sys { get; set; }
 	public static Cfg Cfg { get; set; }
 	public static Random Rnd { get; set; }
+	public static Overlord Overlord { get; set; }
 }
