@@ -23,6 +23,7 @@ public class LeaveChaosDungeonStep : StepBase
 		if (matches)
 		{
 			DI.MouseCtrl.MoveAndClick(locations);
+			Thread.Sleep(300);
 			if (Utils.TryUntilTrue(Utils.ClickOkCenter))
 			{
 				ResetState();

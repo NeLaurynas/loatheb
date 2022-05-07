@@ -19,7 +19,7 @@ public static class Utils
 		return true;
 	}
 
-	public static bool TryUntilTrue(Func<bool> action, int retryTime = 5, int sleepTime = 100)
+	public static bool TryUntilTrue(Func<bool> action, int retryTime = 5, int sleepTime = 200)
 	{
 		for (var i = 0; i < retryTime; i++)
 		{

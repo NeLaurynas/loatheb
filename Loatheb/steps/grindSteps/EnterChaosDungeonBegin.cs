@@ -37,6 +37,7 @@ public class EnterChaosDungeonBegin : StepBase
 				DI.MouseCtrl.Move(statueLocation);
 				Thread.Sleep(100);
 				DI.MouseCtrl.Click();
+				Thread.Sleep(600);
 				ResetState();
 				return GrindSteps.ClickEnterChaosDungeonStep;
 			}

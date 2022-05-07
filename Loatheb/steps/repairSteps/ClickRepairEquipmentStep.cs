@@ -11,7 +11,8 @@ public class ClickRepairEquipmentStep : StepBase
 	{
 		State = new StepStateBase
 		{
-			SleepDurationBeforeExecuting = 333
+			SleepDurationBeforeExecuting = 666,
+			SleepDurationAfterExecution = 2000
 		};
 	}
 

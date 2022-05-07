@@ -2,10 +2,25 @@
 
 public class RepairEquipmentBegin : StepBase
 {
+	public override StepStateBase State
+	{
+		get;
+	}
+
+	public RepairEquipmentBegin()
+	{
+		State = new StepStateBase
+		{
+			SleepDurationBeforeExecuting = 1000
+		};
+	}
+
 	public override async Task<StepBase?> Execute()
 	{
 		if (Utils.InsideChaosDungeon())
 			return GrindSteps.LeaveChaosDungeonStep;
+
+		Utils.TryUntilTrue(Utils.IsLoaded, 40, 1000);
 		
 		if (await NeedsRepairingEquipment())
 			return RepairEquipmentSteps.OpenPetMenuStep;
