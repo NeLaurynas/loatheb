@@ -19,6 +19,9 @@ public class RepairEquipmentBegin : StepBase
 	{
 		if (Utils.InsideChaosDungeon())
 			return GrindSteps.LeaveChaosDungeonStep;
+		
+		if (Utils.DeadWindowShowing())
+			return UtilSteps.CreateLeaveFromDeadWindowStep(RepairEquipmentSteps.RepairEquipmentBegin);
 
 		Utils.TryUntilTrue(Utils.IsLoaded, 40, 1000);
 		

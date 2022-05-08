@@ -1,3 +1,4 @@
+using Emgu.CV.CvEnum;
 using Loatheb.steps;
 using Loatheb.steps.grindSteps;
 namespace Loatheb
@@ -117,6 +118,27 @@ namespace Loatheb
 			{
 				DI.Logger.Log("No match");
 			}
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+	        DI.Logger.Log("Ccoeff");
+	        DI.OpenCV.IsMatching(DI.Images.RedMini, ScreenLocations.Minimap, 0.9, false, TemplateMatchingType.Ccoeff);	      
+	        
+	        DI.Logger.Log("Ccorr");
+	        DI.OpenCV.IsMatching(DI.Images.RedMini, ScreenLocations.Minimap, 0.9, false, TemplateMatchingType.Ccorr);
+	        
+	        DI.Logger.Log("Sqdiff");
+	        DI.OpenCV.IsMatching(DI.Images.RedMini, ScreenLocations.Minimap, 0.9, false, TemplateMatchingType.Sqdiff);
+	        
+	        DI.Logger.Log("CcoeffNormed (default)");
+	        DI.OpenCV.IsMatching(DI.Images.RedMini, ScreenLocations.Minimap, 0.9, false, TemplateMatchingType.CcoeffNormed);
+	        
+	        DI.Logger.Log("CcorrNormed");
+	        DI.OpenCV.IsMatching(DI.Images.RedMini, ScreenLocations.Minimap, 0.9, false, TemplateMatchingType.CcorrNormed);
+	        
+	        DI.Logger.Log("SqdiffNormed");
+	        DI.OpenCV.IsMatching(DI.Images.RedMini, ScreenLocations.Minimap, 0.9, false, TemplateMatchingType.SqdiffNormed);
         }
     }
 }

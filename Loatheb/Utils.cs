@@ -38,10 +38,21 @@ public static class Utils
 		return DI.OpenCV.IsMatching(DI.Images.LeaveBtn, 5, 30, 280, 300);
 	}
 
+	public static bool Every(int every, int current)
+	{
+		return current % every == 0;
+	}
+
 	public static bool IsLoaded()
 	{
 		DI.Logger.Log("Checking if in loading screen");
 		Thread.Sleep(1000);
 		return DI.OpenCV.IsMatching(DI.Images.TopRightElement, 2525, 0, 40, 40, 0.95);
+	}
+
+	public static bool DeadWindowShowing()
+	{
+		DI.Logger.Log("Checking if dead window is showing");
+		return DI.OpenCV.IsMatching(DI.Images.YouDiedTitle, 1200, 0, 1200, 800);
 	}
 }

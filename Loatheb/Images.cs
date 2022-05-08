@@ -70,6 +70,10 @@ public class Images
 	public Image<Bgr, byte> YouDiedTitle;
 	public Image<Bgr, byte> LeaveDiedBtn;
 	public Image<Bgr, byte> TmpDog;
+	public Image<Bgr, byte> RedMini;
+	public Image<Bgr, byte> BossMini1;
+	public Image<Bgr, byte> BossMini2;
+	public Image<Bgr, byte> BossMini3;
 
 	private readonly Logger _logger;
 
@@ -148,5 +152,10 @@ public class Images
 		YouDiedTitle = new Image<Bgr, Byte>("images/youDiedTitle.png");
 		LeaveDiedBtn = new Image<Bgr, Byte>("images/leaveDiedBtn.png");
 		TmpDog = new Image<Bgr, Byte>("images/tmpDog.png");
+		TmpDog = new Image<Bgr, Byte>("images/redMini.png");
+		RedMini = new Image<Bgr, Byte>("images/redMini.png");
+		BossMini1 = new Image<Bgr, Byte>("images/bossMini1.png");
+		BossMini2 = new Image<Bgr, Byte>("images/bossMini2.png");
+		BossMini3 = new Image<Bgr, Byte>("images/bossMini3.png");
 	}
 }

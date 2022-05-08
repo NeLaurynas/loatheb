@@ -16,7 +16,7 @@ public class OpenCV
 		_uiControl = uiControl;
 	}
 
-	public (double[] maxValues, Point[] maxLocations) Match(Image<Bgr, Byte> template, ScreenPart part = ScreenPart.Full)
+	public (double[] maxValues, Point[] maxLocations) Match(Image<Bgr, byte> template, ScreenPart part = ScreenPart.Full, TemplateMatchingType templateMatchingType = TemplateMatchingType.CcoeffNormed)
 	{
 		var width = part switch
 		{
@@ -41,7 +41,7 @@ public class OpenCV
 			_ => 0
 		};
 
-		return Match(template, xPadding, yPadding, width, height);
+		return Match(template, xPadding, yPadding, width, height, templateMatchingType: templateMatchingType);
 	}
 
 	public Bitmap TakeScreenshot(int x, int y, int width = 0, int height = 0, bool setDebugImage = false)
@@ -71,11 +71,11 @@ public class OpenCV
 		return Match(template, loc.X, loc.Y, loc.Width, loc.Height, setDebugImage);
 	}
 
-	public (double[] maxValues, Point[] maxLocations) Match(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, bool setDebugImage = false)
+	public (double[] maxValues, Point[] maxLocations) Match(Image<Bgr, byte> template, int x, int y, int width = 0, int height = 0, bool setDebugImage = false, TemplateMatchingType templateMatchingType = TemplateMatchingType.CcoeffNormed)
 	{
 		using var bitmap = TakeScreenshot(x, y, width, height, setDebugImage);
 		using var cvImg = bitmap.ToImage<Bgr, Byte>();
-		using var imgMatch = cvImg.MatchTemplate(template, TemplateMatchingType.CcoeffNormed);
+		using var imgMatch = cvImg.MatchTemplate(template, templateMatchingType);
 
 		imgMatch.MinMax(out _, out var maxValues, out _, out var maxLocations);
 		for (var i = 0; i < maxLocations.Length; i++)
@@ -94,33 +94,33 @@ public class OpenCV
 		return result.Length == 1 && result[0] >= confidence;
 	}
 
-	public bool IsMatching(Image<Bgr, Byte> template, ScreenLoc loc, double confidence = 0.9, bool setDebugImage = false)
+	public bool IsMatching(Image<Bgr, byte> template, ScreenLoc loc, double confidence = 0.9, bool setDebugImage = false, TemplateMatchingType templateMatchingType = TemplateMatchingType.CcoeffNormed)
 	{
-		return IsMatching(template, loc.X, loc.Y, loc.Width, loc.Height, confidence, setDebugImage);
+		return IsMatching(template, loc.X, loc.Y, loc.Width, loc.Height, confidence, setDebugImage, templateMatchingType);
 	}
 
-	public bool IsMatching(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9, bool setDebugImage = false)
+	public bool IsMatching(Image<Bgr, byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9, bool setDebugImage = false, TemplateMatchingType templateMatchingType = TemplateMatchingType.CcoeffNormed)
 	{
-		var (result, _) = Match(template, x, y, width, height, setDebugImage);
+		var (result, _) = Match(template, x, y, width, height, setDebugImage, templateMatchingType);
 		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, # - {result.Length}");
 		return result.Length == 1 && result[0] >= confidence;
 	}
 
-	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, ScreenLoc loc, double confidence = 0.9)
+	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, byte> template, ScreenLoc loc, double confidence = 0.9, TemplateMatchingType templateMatchingType = TemplateMatchingType.CcoeffNormed)
 	{
-		return IsMatchingWhere(template, loc.X, loc.Y, loc.Width, loc.Height, confidence);
+		return IsMatchingWhere(template, loc.X, loc.Y, loc.Width, loc.Height, confidence, templateMatchingType);
 	}
 
-	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9)
+	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, byte> template, int x, int y, int width = 0, int height = 0, double confidence = 0.9, TemplateMatchingType templateMatchingType = TemplateMatchingType.CcoeffNormed)
 	{
-		var (result, maxLocations) = Match(template, x, y, width, height);
+		var (result, maxLocations) = Match(template, x, y, width, height, false, templateMatchingType);
 		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, # - {result.Length}");
 		return (result.Length == 1 && result[0] >= confidence, maxLocations);
 	}
 
-	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, Byte> template, double confidence = 0.9, ScreenPart part = ScreenPart.Full)
+	public (bool isMatching, Point[] maxLocations) IsMatchingWhere(Image<Bgr, byte> template, double confidence = 0.9, ScreenPart part = ScreenPart.Full, TemplateMatchingType templateMatchingType = TemplateMatchingType.CcoeffNormed)
 	{
-		var (result, maxLocations) = Match(template, part);
+		var (result, maxLocations) = Match(template, part, templateMatchingType);
 		_logger.Log($"C - {confidence}, V - {result.FirstOrDefault()}, ## - {result.Length}");
 		return (result.Length == 1 && result[0] >= confidence, maxLocations);
 	}

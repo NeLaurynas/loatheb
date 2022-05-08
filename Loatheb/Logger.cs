@@ -19,6 +19,9 @@ public class Logger : INotifyPropertyChanged
 
 	public void Log(string text)
 	{
+		// TODO: cfg to not log debug info
+		if (text.StartsWith("C -")) return;
+		
 		_logs[_logIdx] = text;
 		
 		OnPropertyChanged(nameof(Logs));

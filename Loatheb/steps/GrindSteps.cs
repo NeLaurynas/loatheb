@@ -11,7 +11,7 @@ public static class GrindSteps
 	public static P2MainBattleStep P2MainBattleStep { get; } = new();
 	public static ProceedToP2Step ProceedToP2Step { get; } = new();
 
-	public static MoveUpDownStep? CreateMoveUpDownStep(StepBase? nextStep = null)
+	public static MoveUpDownStep CreateMoveUpDownStep(StepBase? nextStep = null)
 	{
 		MoveUpDownStep.State.NextStep = nextStep;
 		return MoveUpDownStep;

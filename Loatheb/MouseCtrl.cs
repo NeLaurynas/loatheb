@@ -57,6 +57,7 @@ public class MouseCtrl
 		Click();
 	}
 
+	// todo: scale in world and then in chaos dungeon completely off
 	public void MoveMinimapDistance(Point[] locations)
 	{
 		const int centerX = 2380;
@@ -74,8 +75,6 @@ public class MouseCtrl
 			var movingRight = distanceOnMiniX > 0;
 			var movingTop = distanceOnMiniY < 0;
 
-			DI.Logger.Log($"dist: {distanceOnMiniX}");
-
 			int toMoveY = 3;
 			do
 			{
@@ -84,13 +83,11 @@ public class MouseCtrl
 				{
 					toMoveX = distanceOnMiniX > 34 ? 34 : distanceOnMiniX;
 					distanceOnMiniX = Math.Max(0, distanceOnMiniX - toMoveX);
-					DI.Logger.Log($"IF: {distanceOnMiniX}");
 				}
 				else
 				{
 					toMoveX = Math.Abs(distanceOnMiniX) > 34 ? -34 : distanceOnMiniX;
 					distanceOnMiniX = Math.Min(0, distanceOnMiniX + Math.Abs(toMoveX));
-					DI.Logger.Log($"ELSE: {distanceOnMiniX}");
 				}
 
 				if (movingTop)
@@ -106,7 +103,7 @@ public class MouseCtrl
 				
 				MoveFromCenter((int)((movingRight ? 2145d : 2320d) * toMoveX / 34d / 2), (int)((movingTop ? 470d : 370d) * toMoveY / (movingTop ? 23d : 16d)));
 				Click();
-				Thread.Sleep(2700);
+				Thread.Sleep(1000);
 			}
 			while (distanceOnMiniX != 0 || distanceOnMiniY != 0); 
 		}

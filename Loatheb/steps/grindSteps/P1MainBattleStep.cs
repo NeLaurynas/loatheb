@@ -1,4 +1,5 @@
-﻿namespace Loatheb.steps.grindSteps;
+﻿using Emgu.CV.CvEnum;
+namespace Loatheb.steps.grindSteps;
 
 public class P1MainBattleStep : StepBase
 {
@@ -7,9 +8,12 @@ public class P1MainBattleStep : StepBase
 		try
 		{
 			var position = (Position)DI.Rnd.Next(4);
+			var start = DateTime.Now;
 			
 			do
 			{
+				if (DI.Overlord.Running == false) throw new Exception("Stopping P1");
+				
 				var availableSkills = await MainBattleUtils.GetAvailableSkills();
 
 				foreach (var skill in availableSkills)
@@ -20,8 +24,10 @@ public class P1MainBattleStep : StepBase
 					position = position.NextPosition();
 				}
 
-				if (DI.Rnd.Next(100) < DI.Cfg.ChanceToMove)
-					DI.MouseCtrl.Click();
+				// random movement in first 30 seconds
+				// no random movement
+				// if (start.AddSeconds(30) > DateTime.Now && DI.Rnd.Next(100) < DI.Cfg.ChanceToMove)
+					// DI.MouseCtrl.Click();
 			}
 			while (!await CanProceedToP2());
 
@@ -36,16 +42,13 @@ public class P1MainBattleStep : StepBase
 	
 	public async Task<bool> CanProceedToP2()
 	{
-		// TODO: check if it's running!
-		DI.Logger.Log("Checking if it's time to bail");
-		var p19Task = Task.Run(() => DI.OpenCV.IsMatching(DI.Images.Prog19, 5, 30, 280, 300, 0.85));
-		var p20Task = Task.Run(() => DI.OpenCV.IsMatching(DI.Images.Prog20, 5, 30, 280, 300, 0.85));
-		var p21Task = Task.Run(() => DI.OpenCV.IsMatching(DI.Images.Prog21, 5, 30, 280, 300, 0.85));
+		DI.Logger.Log("Checking if it's time to move to P2");
+		var redDotMinimapTask = Task.Run(() => DI.OpenCV.IsMatching(DI.Images.RedMini, ScreenLocations.Minimap, 0.95, false, TemplateMatchingType.CcorrNormed));
+		var p21Task = Task.Run(() => DI.OpenCV.IsMatching(DI.Images.Prog21, 5, 30, 280, 300, 0.8));
 
-		var a = await p19Task;
-		var b = await p20Task;
-		var c = await p21Task;
-		return a || b || c;
+		var a = await redDotMinimapTask;
+		var b = await p21Task;
+		return b && !a;
 	}
 
 	public override void AfterExec()

@@ -41,6 +41,7 @@ namespace Loatheb
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnTmpMoveDog = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.imgDebug = new System.Windows.Forms.PictureBox();
             this.txtHeight = new System.Windows.Forms.TextBox();
@@ -55,7 +56,7 @@ namespace Loatheb
             this.btnTakeSS = new System.Windows.Forms.Button();
             this.refreshLAWindowLocBtn = new System.Windows.Forms.Button();
             this.logBox = new System.Windows.Forms.TextBox();
-            this.btnTmpMoveDog = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -95,11 +96,11 @@ namespace Loatheb
             this.tabs.Controls.Add(this.tabPage5);
             this.tabs.Controls.Add(this.tabPage3);
             this.tabs.Controls.Add(this.tabPage4);
-            this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabs.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabs.Location = new System.Drawing.Point(0, 0);
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(984, 689);
+            this.tabs.Size = new System.Drawing.Size(984, 396);
             this.tabs.TabIndex = 2;
             // 
             // tabPage1
@@ -109,7 +110,7 @@ namespace Loatheb
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(976, 661);
+            this.tabPage1.Size = new System.Drawing.Size(976, 368);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Grinding";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -139,7 +140,7 @@ namespace Loatheb
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(976, 661);
+            this.tabPage2.Size = new System.Drawing.Size(976, 368);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Fishing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -148,7 +149,7 @@ namespace Loatheb
             // 
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(976, 661);
+            this.tabPage5.Size = new System.Drawing.Size(976, 368);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Collect";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -158,7 +159,7 @@ namespace Loatheb
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(976, 661);
+            this.tabPage3.Size = new System.Drawing.Size(976, 368);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -175,15 +176,26 @@ namespace Loatheb
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.button1);
             this.tabPage4.Controls.Add(this.btnTmpMoveDog);
             this.tabPage4.Controls.Add(this.groupBox1);
             this.tabPage4.Controls.Add(this.refreshLAWindowLocBtn);
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(976, 661);
+            this.tabPage4.Size = new System.Drawing.Size(976, 368);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Debug";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // btnTmpMoveDog
+            // 
+            this.btnTmpMoveDog.Location = new System.Drawing.Point(3, 32);
+            this.btnTmpMoveDog.Name = "btnTmpMoveDog";
+            this.btnTmpMoveDog.Size = new System.Drawing.Size(144, 23);
+            this.btnTmpMoveDog.TabIndex = 2;
+            this.btnTmpMoveDog.Text = "Try moving to the dog";
+            this.btnTmpMoveDog.UseVisualStyleBackColor = true;
+            this.btnTmpMoveDog.Click += new System.EventHandler(this.btnTmpMoveDog_Click);
             // 
             // groupBox1
             // 
@@ -203,7 +215,7 @@ namespace Loatheb
             this.groupBox1.Controls.Add(this.btnTakeSS);
             this.groupBox1.Location = new System.Drawing.Point(183, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(790, 499);
+            this.groupBox1.Size = new System.Drawing.Size(790, 362);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Take game window screenshot";
@@ -214,9 +226,9 @@ namespace Loatheb
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imgDebug.BackColor = System.Drawing.Color.CadetBlue;
-            this.imgDebug.Location = new System.Drawing.Point(6, 51);
+            this.imgDebug.Location = new System.Drawing.Point(0, 51);
             this.imgDebug.Name = "imgDebug";
-            this.imgDebug.Size = new System.Drawing.Size(778, 442);
+            this.imgDebug.Size = new System.Drawing.Size(778, 305);
             this.imgDebug.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgDebug.TabIndex = 10;
             this.imgDebug.TabStop = false;
@@ -319,27 +331,26 @@ namespace Loatheb
             // 
             // logBox
             // 
-            this.logBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.logBox.Location = new System.Drawing.Point(0, 542);
+            this.logBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logBox.Location = new System.Drawing.Point(0, 396);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.PlaceholderText = "Initializing...";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.ShortcutsEnabled = false;
-            this.logBox.Size = new System.Drawing.Size(984, 147);
+            this.logBox.Size = new System.Drawing.Size(984, 293);
             this.logBox.TabIndex = 4;
             this.logBox.Text = "Hello\r\nThere\r\nGeneral\r\nKenobi!";
             // 
-            // btnTmpMoveDog
+            // button1
             // 
-            this.btnTmpMoveDog.Location = new System.Drawing.Point(3, 32);
-            this.btnTmpMoveDog.Name = "btnTmpMoveDog";
-            this.btnTmpMoveDog.Size = new System.Drawing.Size(144, 23);
-            this.btnTmpMoveDog.TabIndex = 2;
-            this.btnTmpMoveDog.Text = "Try moving to the dog";
-            this.btnTmpMoveDog.UseVisualStyleBackColor = true;
-            this.btnTmpMoveDog.Click += new System.EventHandler(this.btnTmpMoveDog_Click);
+            this.button1.Location = new System.Drawing.Point(3, 61);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(144, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Test red minimap";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // LoathebForm
             // 
@@ -392,9 +403,10 @@ namespace Loatheb
         private Button btnTakeSS;
         private TextBox txtHeight;
         private Label label6;
-        private PictureBox imgDebug;
         private BindableToolStripStatusLabel lblStatus2;
         private Label label7;
         private Button btnTmpMoveDog;
+        private PictureBox imgDebug;
+        private Button button1;
     }
 }

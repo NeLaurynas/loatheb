@@ -20,10 +20,10 @@ public class MoveUpDownStep : StepBase
 		DI.MouseCtrl.Click();
 		Thread.Sleep(1000);
 		
-		if (DI.Rnd.Next(100) < 34)
+		// always
+		if (DI.Rnd.Next(100) < 1000)
 		{
-			upCount = DI.Rnd.Next(150, 300);
-			DI.MouseCtrl.MoveFromCenter(y: -upCount);
+			DI.MouseCtrl.MoveFromCenter(y: -upCount + 30);
 			DI.MouseCtrl.Click();
 		}
 		else

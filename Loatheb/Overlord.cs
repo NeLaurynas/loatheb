@@ -68,9 +68,9 @@ public class Overlord : INotifyPropertyChanged
 
 			if (step.State.Iter > step.State.MaxIter)
 			{
-				_logger.Log($"Step {step.GetType().Name} reached max iteration count, halting");
-				Running = false;
-				return null;
+				_logger.Log($"Step {step.GetType().Name} reached max iteration count, Running default task");
+				// Running = false;
+				return await ExecuteStep(RepairEquipmentSteps.RepairEquipmentBegin);
 			}
 			_logger.Log($"Executing {step.GetType().Name} - {step.State.Iter} / {step.State.MaxIter}");
 

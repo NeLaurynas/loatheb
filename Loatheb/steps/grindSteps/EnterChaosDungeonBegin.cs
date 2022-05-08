@@ -37,14 +37,18 @@ public class EnterChaosDungeonBegin : StepBase
 				DI.MouseCtrl.Move(statueLocation);
 				Thread.Sleep(100);
 				DI.MouseCtrl.Click();
-				Thread.Sleep(600);
-				ResetState();
-				return GrindSteps.ClickEnterChaosDungeonStep;
+				Thread.Sleep(500);
+				if (ChaosDungeonUIShowing())
+				{
+					ResetState();
+					return GrindSteps.ClickEnterChaosDungeonStep;
+				}
 			}
 			else
 			{
 				DI.Logger.Log("Statue NOT found, pressing G in hope of opening chaos dungeon window");
 				DI.KbdCtrl.PressKey(Structures.VirtualKeyShort.KEY_G);
+				Thread.Sleep(500);
 				if (ChaosDungeonUIShowing())
 				{
 					ResetState();
