@@ -13,6 +13,8 @@ public class P1MainBattleStep : StepBase
 			do
 			{
 				if (DI.Overlord.Running == false) throw new Exception("Stopping P1");
+
+				if (start.AddSeconds(60) < DateTime.Now) return GrindSteps.LeaveChaosDungeonStep;
 				
 				var availableSkills = await MainBattleUtils.GetAvailableSkills();
 

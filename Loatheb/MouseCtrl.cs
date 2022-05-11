@@ -75,29 +75,29 @@ public class MouseCtrl
 			var movingRight = distanceOnMiniX > 0;
 			var movingTop = distanceOnMiniY < 0;
 
-			int toMoveY = 3;
+			int toMoveY = 0;
 			do
 			{
 				int toMoveX;
 				if (movingRight)
 				{
-					toMoveX = distanceOnMiniX > 34 ? 34 : distanceOnMiniX;
+					toMoveX = distanceOnMiniX > 32 ? 32 : distanceOnMiniX;
 					distanceOnMiniX = Math.Max(0, distanceOnMiniX - toMoveX);
 				}
 				else
 				{
-					toMoveX = Math.Abs(distanceOnMiniX) > 34 ? -34 : distanceOnMiniX;
+					toMoveX = Math.Abs(distanceOnMiniX) > 29 ? -29 : distanceOnMiniX;
 					distanceOnMiniX = Math.Min(0, distanceOnMiniX + Math.Abs(toMoveX));
 				}
 
 				if (movingTop)
 				{
-					toMoveY = Math.Abs(distanceOnMiniY) > 23 ? -23 : distanceOnMiniY;
+					toMoveY = Math.Abs(distanceOnMiniY) > 20 ? -20 : distanceOnMiniY;
 					distanceOnMiniY = Math.Min(0, distanceOnMiniY + Math.Abs(toMoveY));
 				}
 				else
 				{
-					toMoveY = distanceOnMiniY > 16 ? 16 : distanceOnMiniY;
+					toMoveY = distanceOnMiniY > 14 ? 14 : distanceOnMiniY;
 					distanceOnMiniY = Math.Max(0, distanceOnMiniY - toMoveY);
 				}
 				
